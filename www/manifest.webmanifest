@@ -1,0 +1,19 @@
+{
+  "name": "AideSo — Révision Aide-Soignant·e",
+  "short_name": "AideSo",
+  "description": "Le compagnon de révision des élèves aides-soignant·e·s (DEAS) : 10 modules, fiches, QCM, flashcards, situations cliniques, gestes et préparation à la certification. 100% hors-ligne.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fdf2f8",
+  "theme_color": "#be185d",
+  "lang": "fr",
+  "categories": ["education", "medical", "productivity"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-256.png", "sizes": "256x256", "type": "image/png" },
+    { "src": "icons/icon-384.png", "sizes": "384x384", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

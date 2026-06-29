@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="AideSo">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ec4899"/>
+      <stop offset="1" stop-color="#be185d"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <!-- Mains qui soutiennent (deux arcs) -->
+  <path d="M96 300 q40 96 160 96 q120 0 160 -96" fill="none" stroke="#ffffff" stroke-width="26" stroke-linecap="round" opacity="0.55"/>
+  <!-- Cœur (soin / care) -->
+  <path d="M256 318
+           C 232 286, 176 268, 176 220
+           C 176 188, 202 168, 230 168
+           C 246 168, 256 178, 256 178
+           C 256 178, 266 168, 282 168
+           C 310 168, 336 188, 336 220
+           C 336 268, 280 286, 256 318 Z"
+        fill="#ffffff"/>
+</svg>
