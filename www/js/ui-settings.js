@@ -1,9 +1,10 @@
 // Panneau Réglages : apparence, profil, voix, notifications, tuteur IA, données (export/import/reset).
-import { el, toast, navigate, confirmModal } from "./app.js";
+import { el, toast, navigate, confirmModal, openModal, closeModal } from "./app.js";
 import { Storage } from "./storage.js";
 import { applyAppearance, THEMES } from "./themes.js";
 import { requestNotifPermission } from "./notifications.js";
 import { isLoggedIn, currentName, signInWithKey, signOut, syncNow, lastSync, initAutoSync } from "./sync.js";
+import { isStandalone, isIOS, canPromptInstall, promptInstall } from "./install.js";
 
 export function renderSettings(root) {
   const s = Storage.getSettings();
@@ -13,6 +14,24 @@ export function renderSettings(root) {
     el("button", { class: "btn btn-ghost btn-sm", style: { paddingLeft: "0", marginBottom: "6px" }, onclick: () => navigate("profile") }, ["← Profil"]),
     el("h1", {}, ["⚙️ Réglages"]),
   ]));
+
+  // -------- Installer l'application --------
+  if (!isStandalone()) {
+    root.appendChild(el("div", { class: "section-title" }, ["Installer l'application"]));
+    root.appendChild(el("div", { class: "card" }, [
+      el("p", { class: "small muted" }, ["Installe AideSo comme une vraie app : icône sur l'écran d'accueil, plein écran, fonctionne hors-ligne."]),
+      el("button", { class: "btn btn-block", onclick: async () => {
+        if (canPromptInstall()) {
+          const ok = await promptInstall();
+          toast(ok ? "Installation lancée ✓" : "Installation annulée.", ok ? "success" : "info");
+          if (ok) navigate("settings");
+        } else { showInstallHelp(); }
+      } }, ["📲 Installer sur mon téléphone"]),
+    ]));
+  } else {
+    root.appendChild(el("div", { class: "section-title" }, ["Application"]));
+    root.appendChild(el("div", { class: "card small muted" }, ["✓ L'application est installée sur cet appareil."]));
+  }
 
   // -------- Compte & synchronisation --------
   root.appendChild(el("div", { class: "section-title" }, ["Compte & synchronisation"]));
@@ -87,6 +106,18 @@ export function renderSettings(root) {
   root.appendChild(el("p", { class: "disclaimer" }, ["AideSo v1 · Aide à la révision DEAS (arrêté du 10 juin 2021). Le contenu ne remplace pas les cours officiels ni les protocoles en vigueur. En cas de doute, réfère-toi à ton IFAS et à l'IDE."]));
 }
 
+// ---------- Aide à l'installation (quand le prompt natif n'est pas dispo, ex. iOS) ----------
+function showInstallHelp() {
+  const ios = isIOS();
+  openModal(el("div", {}, [
+    el("h3", {}, ["📲 Installer l'application"]),
+    ios
+      ? el("div", { class: "fiche" }, [el("p", {}, ["Sur iPhone / iPad, avec Safari :"]), el("ol", {}, [el("li", {}, ["Appuie sur le bouton Partager ⬆️."]), el("li", {}, ["Choisis « Sur l'écran d'accueil »."]), el("li", {}, ["Confirme avec « Ajouter »."])])])
+      : el("div", { class: "fiche" }, [el("p", {}, ["Sur Android / ordinateur :"]), el("ol", {}, [el("li", {}, ["Ouvre le menu du navigateur (⋮ ou l'icône d'installation dans la barre d'adresse)."]), el("li", {}, ["Choisis « Installer l'application » ou « Ajouter à l'écran d'accueil »."])])]),
+    el("button", { class: "btn btn-block mt", onclick: () => closeModal() }, ["Compris"]),
+  ]));
+}
+
 // ---------- Compte & synchronisation (PC ↔ téléphone) ----------
 function renderSync(box) {
   box.innerHTML = "";
@@ -103,7 +134,7 @@ function renderSync(box) {
         try { const r = await syncNow(); toast(r === "pulled" ? "Données récupérées ✓" : "Sauvegardé dans le cloud ✓", "success"); renderSync(box); }
         catch (err) { toast(err.message, "error", 4000); b.removeAttribute("disabled"); b.textContent = "🔄 Synchroniser maintenant"; }
       } }, ["🔄 Synchroniser maintenant"]),
-      el("button", { class: "btn btn-secondary btn-block", onclick: () => confirmModal({ title: "Se déconnecter ?", message: "Tes données restent sur cet appareil. Tu pourras te reconnecter avec ta clé d'accès.", confirmLabel: "Se déconnecter", onConfirm: () => { signOut(); toast("Déconnecté.", "info"); renderSync(box); } }) }, ["Se déconnecter"]),
+      el("button", { class: "btn btn-secondary btn-block", onclick: () => confirmModal({ title: "Se déconnecter ?", message: "Tu reviendras à l'écran de connexion. Tes données restent sauvegardées dans le cloud (et sur cet appareil).", confirmLabel: "Se déconnecter", danger: true, onConfirm: () => { signOut(); window.location.reload(); } }) }, ["Se déconnecter"]),
     ]));
   } else {
     const keyInput = el("input", { type: "text", placeholder: "Ta clé d'accès", autocapitalize: "characters", autocomplete: "off", spellcheck: "false" });

@@ -5,7 +5,7 @@ import { installUpdateBanner } from "./a11y.js";
 import { shouldShowOnboarding, showOnboarding } from "./onboarding.js";
 import { maybeRemind } from "./notifications.js";
 import { loadContent } from "./content/index.js";
-import { initAutoSync } from "./sync.js";
+import { initAutoSync, isLoggedIn, signInWithKey, syncNow, currentName } from "./sync.js";
 
 import { renderDashboard } from "./ui-dashboard.js";
 import { renderCours } from "./ui-cours.js";
@@ -139,16 +139,57 @@ function renderHardRefresh() {
 
 async function bootstrap() {
   await Storage.init();
-  await loadContent();
-  if (typeof window !== "undefined") window._aidesoContentReady = true;
   applyAppearance(Storage.getSettings());
   installUpdateBanner();
+  if (!isLoggedIn()) { renderAuthGate(); return; }
+  await startApp();
+}
+
+// Lancement de l'app une fois connecté.
+async function startApp() {
+  const nav = document.getElementById("bottom-nav"); if (nav) nav.style.display = "";
+  await loadContent();
+  if (typeof window !== "undefined") window._aidesoContentReady = true;
   renderBottomNav();
   renderHardRefresh();
   navigate("dashboard");
   if (shouldShowOnboarding()) setTimeout(() => showOnboarding({ onComplete: () => navigate("dashboard") }), 350);
   setTimeout(() => { try { maybeRemind(); } catch {} }, 1500);
   setTimeout(() => { try { initAutoSync(); } catch {} }, 800);
+}
+
+// Écran de connexion obligatoire (clé d'accès nominative).
+function renderAuthGate() {
+  const nav = document.getElementById("bottom-nav"); if (nav) nav.style.display = "none";
+  const root = document.getElementById("panel-root"); if (!root) return;
+  clear(root);
+  const input = el("input", { type: "text", placeholder: "Ta clé d'accès", autocapitalize: "characters", autocomplete: "off", spellcheck: "false", style: { textAlign: "center", letterSpacing: "1px", fontWeight: "700" } });
+  const btn = el("button", { class: "btn btn-block btn-lg mt", onclick: async () => {
+    if (!input.value.trim()) return toast("Saisis ta clé d'accès.", "info");
+    btn.setAttribute("disabled", ""); btn.textContent = "Connexion…";
+    try {
+      await signInWithKey(input.value);
+      try { await syncNow(); } catch {}
+      const nm = currentName(); const p = Storage.getProfile();
+      if (nm && !p.prenom) { Storage.saveProfile({ prenom: nm.split(" ")[0] }); Storage.saveSettings({ onboarded: true }); }
+      toast("Bienvenue" + (nm ? " " + nm.split(" ")[0] : "") + " ✓", "success");
+      await startApp();
+    } catch (e) { toast(e.message, "error", 4500); btn.removeAttribute("disabled"); btn.textContent = "Se connecter"; }
+  } }, ["Se connecter"]);
+  input.addEventListener("keydown", (e) => { if (e.key === "Enter") btn.click(); });
+  root.appendChild(el("div", { class: "panel-enter" }, [
+    el("div", { class: "center", style: { marginTop: "14vh" } }, [
+      el("div", { style: { fontSize: "3.4rem" } }, ["💗"]),
+      el("h1", { style: { marginTop: "8px", fontSize: "1.9rem" } }, ["AideSo"]),
+      el("p", { class: "muted" }, ["Révision Aide-Soignant·e — entre ta clé d'accès pour ouvrir l'application."]),
+    ]),
+    el("div", { class: "card", style: { marginTop: "20px" } }, [
+      el("div", { class: "field" }, [el("label", {}, ["Clé d'accès"]), input]),
+      btn,
+    ]),
+    el("p", { class: "disclaimer" }, ["Pas de clé ? Demande-la à la personne qui t'a partagé l'application. Tes données sont sauvegardées et synchronisées sur tous tes appareils."]),
+  ]));
+  setTimeout(() => { try { input.focus(); } catch {} }, 120);
 }
 
 if (typeof window !== "undefined") {
