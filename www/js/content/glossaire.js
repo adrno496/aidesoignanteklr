@@ -1,5 +1,6 @@
 // Glossaire médical / abréviations. Recherche tolérante (accents, casse, alias).
-export const GLOSSAIRE = [
+import { EXTRA } from "./glossaire-extra.js";
+const BASE = [
   { terme: "Dyspnée", def: "Difficulté ou gêne respiratoire ressentie par le patient." },
   { terme: "Tachycardie", def: "Fréquence cardiaque > 100 bpm au repos." },
   { terme: "Bradycardie", def: "Fréquence cardiaque < 60 bpm." },
@@ -78,6 +79,8 @@ export const GLOSSAIRE = [
   { terme: "SSR", def: "Soins de Suite et de Réadaptation." },
   { terme: "BHRe", def: "Bactérie Hautement Résistante émergente." },
 ];
+
+export const GLOSSAIRE = [...BASE, ...EXTRA];
 
 function norm(s) {
   return String(s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").trim();
