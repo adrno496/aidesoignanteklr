@@ -1,0 +1,157 @@
+export const cas = [
+  {
+    id: "mod_6_exam_annonce_fin_de_vie",
+    mod: "6",
+    titre: "Accompagnement et communication auprès d'un patient en fin de vie",
+    niveau: "Examen",
+    contexte: "Vous êtes aide-soignant(e) en service de soins palliatifs, en collaboration avec l'infirmière et sous sa responsabilité. Vous assurez les soins de confort et l'accompagnement relationnel d'un patient en phase palliative.",
+    situation: "Monsieur G., 68 ans, est hospitalisé en unité de soins palliatifs pour un cancer pulmonaire métastatique en phase avancée. Antécédents : BPCO, ancien tabagisme. Une décision de limitation des thérapeutiques actives a été prise de façon collégiale, en accord avec le patient. Constantes du matin : TA 100/60 mmHg, pouls 96/min, FR 22/min, SpO2 90 % sous oxygène, température 37,4 °C, EVA douleur à 4/10. Il est conscient, fatigué, dyspnéique au moindre effort. Pendant la toilette, il vous prend la main et vous dit, les larmes aux yeux : \"Je crois que c'est bientôt la fin… Vous croyez que je vais souffrir ?\". Sa fille, présente dans la chambre, sort en pleurant. Une collègue vous suggère de \"changer de sujet pour ne pas l'angoisser\".",
+    questions: [
+      {
+        q: "Quelle attitude relationnelle et de communication adoptez-vous face à la parole de Monsieur G. ? Justifiez.",
+        type: "open",
+        corrige: "Adopter une écoute active et une présence empathique : ne pas fuir la question ni \"changer de sujet\", s'asseoir ou se mettre à sa hauteur, maintenir le contact (main, regard), respecter les silences. Accueillir l'émotion sans la nier ni la banaliser (ne pas dire \"mais non, ça va aller\"). Reformuler et laisser parler le patient (\"Vous avez peur de souffrir ?\") pour comprendre sa demande et lui permettre d'exprimer ses craintes. Rester dans son champ de compétence : ne pas mentir, ne pas promettre la guérison, ne pas se prononcer sur le pronostic médical qui relève du médecin. Le rassurer sur l'objectif de soins (soulager la douleur, assurer le confort, ne pas le laisser seul). Transmettre sans délai à l'IDE et au médecin la souffrance exprimée et la question sur la douleur. L'authenticité, l'écoute, le respect du rythme et la transmission rapportent les points.",
+      },
+      {
+        q: "Parmi ces réponses, laquelle correspond à une attitude de communication adaptée auprès d'un patient en fin de vie ?",
+        type: "qcm",
+        options: [
+          "\"Ne dites pas ça, vous allez vous en sortir, soyez positif !\"",
+          "\"Je comprends que vous ayez peur. Je suis là, je reste avec vous. Tout est fait pour que vous ne souffriez pas et j'en parle tout de suite à l'infirmière.\"",
+          "Quitter la chambre rapidement pour ne pas avoir à répondre",
+          "\"Ce n'est pas à moi de répondre, demandez au médecin\" puis poursuivre la toilette en silence",
+        ],
+        correct: 1,
+        corrige: "La réponse adaptée accueille l'émotion, ne ment pas, rassure sur le confort et la non-souffrance, affirme la présence et oriente vers l'IDE/le médecin pour la question médicale. La fausse réassurance, la fuite et le renvoi sec ferment la communication et isolent le patient.",
+      },
+      {
+        q: "La fille de Monsieur G. sort en pleurant. Comment intégrez-vous l'accompagnement de la famille dans votre prise en charge ?",
+        type: "open",
+        corrige: "Considérer la famille comme partie prenante de l'accompagnement. Aller vers la fille avec tact, lui proposer un lieu calme pour s'asseoir, lui offrir une écoute et une présence sans la presser. Reconnaître et accueillir sa souffrance (deuil anticipé). L'informer dans la limite de son rôle, favoriser sa présence auprès de son père si elle le souhaite, la solliciter sur les habitudes et souhaits du patient. Ne pas délivrer d'information médicale ou pronostique (rôle du médecin) ni de \"vérité\" qui ne relève pas de l'AS. Lui indiquer les ressources disponibles (psychologue, bénévoles d'accompagnement, assistante sociale). Transmettre à l'équipe le retentissement familial. Respecter le secret professionnel et la volonté du patient sur ce qui peut être partagé.",
+      },
+      {
+        q: "Quels soins de confort relevant de votre rôle propre mettez-vous en œuvre pour améliorer le bien-être de Monsieur G. en phase palliative ?",
+        type: "open",
+        corrige: "Soins de confort visant le bien-être et la dignité : installation confortable adaptée à la dyspnée (position demi-assise pour faciliter la respiration), prévention des escarres (changements de position en douceur, supports adaptés), soins de bouche réguliers et soigneux (bouche sèche fréquente, hydratation des lèvres), toilette douce respectant la fatigue et la pudeur, hygiène et confort cutané. Surveiller et évaluer les signes d'inconfort et de douleur (faciès, gémissements, repli, agitation, échelle adaptée) et les transmettre. Veiller à l'environnement : calme, lumière douce, présence rassurante, respect des rythmes et des souhaits. Proposer à boire/manger selon le désir et les possibilités, sans forcer. Maintenir la communication verbale et non verbale (toucher relationnel). Le tout en collaboration avec l'IDE et en traçant les observations.",
+      },
+      {
+        q: "Concernant l'alimentation et l'hydratation d'un patient en fin de vie, quelle affirmation est exacte ?",
+        type: "qcm",
+        options: [
+          "Il faut toujours forcer le patient à manger et à boire pour qu'il reprenne des forces",
+          "Le confort prime : on respecte le désir du patient, on n'impose ni l'alimentation ni l'hydratation, et on privilégie les soins de bouche et de petites quantités selon ses envies",
+          "Il est interdit de proposer quoi que ce soit à boire en fin de vie",
+          "L'aide-soignant peut décider seul d'arrêter toute alimentation",
+        ],
+        correct: 1,
+        corrige: "En phase palliative, l'objectif est le confort et non la performance nutritionnelle. On respecte le désir et les capacités du patient, on ne force pas, on propose de petites quantités plaisir et on insiste sur les soins de bouche pour le confort. Les décisions sur l'alimentation/hydratation artificielle relèvent d'une démarche médicale collégiale, jamais de l'AS seul.",
+      },
+      {
+        q: "Vous êtes éprouvé(e) émotionnellement par cette situation. Que pouvez-vous faire, et pourquoi est-ce important ?",
+        type: "open",
+        corrige: "Reconnaître que l'accompagnement de fin de vie sollicite fortement le soignant (charge émotionnelle, risque d'épuisement professionnel). Il est légitime et professionnel d'exprimer son ressenti : en parler à l'équipe, à l'IDE, au cadre, participer aux temps d'échange (groupes de parole, réunions pluridisciplinaires, débriefings), solliciter le soutien d'un psychologue si besoin. Cela permet de prendre du recul, de prévenir l'usure et de maintenir une juste distance professionnelle (ni fusion, ni fuite). Le travail en équipe et le partage des ressentis garantissent la qualité et la continuité de l'accompagnement. Continuer à assurer les soins avec humanité tout en se préservant.",
+      },
+    ],
+    demarche: "Démarche attendue par le jury : instaurer une communication adaptée (écoute active, empathie, respect des silences, authenticité, pas de fausse réassurance ni de fuite), rester dans le champ AS (ne pas annoncer de pronostic, transmettre à l'IDE/médecin la souffrance et les questions médicales). Assurer les soins de confort et la dignité (installation, soins de bouche, prévention d'escarre, repérage et transmission de la douleur). Intégrer la famille dans l'accompagnement et l'orienter vers les ressources. Respecter le désir du patient sur l'alimentation/hydratation (confort avant tout). Travailler en équipe pluridisciplinaire, tracer les observations, et prendre soin de soi pour prévenir l'épuisement.",
+  },
+  {
+    id: "mod_6_exam_patient_agressif_annonce",
+    mod: "6",
+    titre: "Communication avec un patient en colère après une mauvaise nouvelle",
+    niveau: "Examen",
+    contexte: "Vous êtes aide-soignant(e) en service de médecine, en collaboration avec l'infirmière. Vous intervenez pour les soins d'hygiène et de confort d'un patient qui vient de recevoir une annonce diagnostique difficile.",
+    situation: "Monsieur R., 54 ans, est hospitalisé pour le bilan d'une altération de l'état général. Le médecin vient de lui annoncer, en présence de l'IDE, le diagnostic d'une maladie grave et chronique. Antécédents : anxiété, divorce récent, isolement social. Lorsque vous entrez dans la chambre une heure plus tard pour l'aider à sa toilette, il repousse le plateau, hausse le ton : \"Fichez-moi la paix ! De toute façon, tout le monde s'en fiche ici, vous êtes tous incompétents !\". Il est tendu, le regard fuyant, refuse le soin. Vous ressentez son agressivité comme dirigée contre vous.",
+    questions: [
+      {
+        q: "Comment analysez-vous l'attitude de Monsieur R. ? Quelle posture relationnelle adoptez-vous ?",
+        type: "open",
+        corrige: "Analyser l'agressivité comme une réaction émotionnelle de défense face à l'annonce d'une maladie grave (mécanismes de défense : colère, déni, révolte décrits notamment par Kübler-Ross). Elle n'est pas dirigée personnellement contre le soignant mais traduit la souffrance, la peur et la perte de contrôle. Posture : rester calme, ne pas répondre à l'agressivité par l'agressivité, ne pas se justifier ni culpabiliser, garder une attitude bienveillante et contenante. Adopter une distance physique respectueuse, un ton posé, un langage non verbal apaisant. Reconnaître et nommer l'émotion (\"Je vois que vous êtes en colère, c'est compréhensible après ce que vous venez d'apprendre\"). Lui laisser de l'espace et du temps, ne pas imposer le soin immédiatement. Proposer de revenir plus tard. Transmettre à l'IDE. Le repérage du mécanisme de défense et la posture non contre-agressive rapportent les points.",
+      },
+      {
+        q: "Parmi ces réactions, laquelle est la plus adaptée face à l'agressivité de Monsieur R. ?",
+        type: "qcm",
+        options: [
+          "Hausser le ton à votre tour pour vous faire respecter",
+          "Lui dire calmement que vous comprenez sa réaction, ne pas imposer le soin maintenant, et proposer de revenir un peu plus tard quand il le souhaitera",
+          "Réaliser la toilette de force car elle est prévue ce matin",
+          "Quitter la chambre vexé(e) et ne plus revenir de la journée",
+        ],
+        correct: 1,
+        corrige: "Accueillir l'émotion, ne pas répondre par la confrontation, respecter le refus momentané du soin et proposer de revenir préserve la relation et la dignité du patient. Imposer le soin de force ou répondre par l'agressivité aggrave le conflit ; abandonner le patient rompt la continuité des soins.",
+      },
+      {
+        q: "Monsieur R. refuse le soin d'hygiène. Quels sont les principes à respecter face à ce refus dans votre rôle d'aide-soignant ?",
+        type: "open",
+        corrige: "Respecter le droit du patient à refuser un soin (consentement, autonomie, dignité). Ne jamais imposer la toilette de force. Chercher à comprendre le refus par le dialogue. Informer le patient de l'intérêt du soin sans le contraindre ni le culpabiliser. Proposer une alternative ou un report (revenir plus tard, soin partiel, autre moment, choix d'un autre soignant si possible). Tracer le refus dans le dossier de soins et le transmettre à l'IDE et à l'équipe afin d'évaluer ensemble la conduite à tenir et de réévaluer plus tard. Ne pas porter de jugement. Maintenir la relation et revenir vers lui. La traçabilité et la transmission du refus sont essentielles.",
+      },
+      {
+        q: "Quels sont les freins et obstacles à une bonne communication que vous devez éviter dans cette situation ?",
+        type: "open",
+        corrige: "Obstacles à éviter : la fausse réassurance (\"ça va aller\"), le jugement et la morale, la banalisation de l'émotion, la fuite ou l'évitement, l'agressivité en retour, les ordres ou la contrainte, le manque d'écoute (couper la parole, parler à sa place), l'absence de disponibilité ou de regard. Éviter aussi le jargon, parler trop vite, ne pas se mettre à sa hauteur. La précipitation et le bruit nuisent à la communication. Côté soignant : ne pas prendre l'agressivité personnellement, ne pas se laisser envahir par ses propres émotions. Favoriser au contraire l'écoute active, l'empathie, la reformulation, le respect des silences, un environnement calme et un langage non verbal cohérent et apaisant.",
+      },
+      {
+        q: "Vous transmettez la situation à l'équipe. Quel est l'intérêt de cette transmission et du travail pluridisciplinaire ?",
+        type: "qcm",
+        options: [
+          "Cela ne sert à rien, l'AS doit gérer seul la relation avec le patient",
+          "Cela permet d'assurer la continuité et la cohérence de la prise en charge, d'adapter l'accompagnement, de partager les observations et de mobiliser les ressources (IDE, médecin, psychologue)",
+          "Cela sert uniquement à se décharger de sa responsabilité",
+          "Il faut transmettre uniquement à l'oral, jamais par écrit",
+        ],
+        correct: 1,
+        corrige: "La transmission orale et écrite et le travail pluridisciplinaire garantissent la continuité et la cohérence des soins, permettent d'adapter l'accompagnement relationnel, de partager les observations (refus, état émotionnel) et de mobiliser les bonnes ressources. C'est un acte professionnel essentiel, dans le respect du secret partagé.",
+      },
+    ],
+    demarche: "Démarche attendue : comprendre l'agressivité comme un mécanisme de défense face à l'annonce d'une maladie grave et non comme une attaque personnelle ; adopter une posture calme, empathique, non contre-agressive ; respecter le refus de soin (consentement, dignité), proposer un report et tracer ; éviter les obstacles à la communication (fausse réassurance, jugement, contrainte, fuite) et privilégier écoute active, reformulation et silences ; transmettre à l'IDE et travailler en équipe pluridisciplinaire pour adapter l'accompagnement et préserver la relation.",
+  },
+  {
+    id: "mod_6_exam_communication_non_verbale_aphasie",
+    mod: "6",
+    titre: "Communiquer avec une personne ne pouvant pas s'exprimer verbalement",
+    niveau: "Examen",
+    contexte: "Vous êtes aide-soignant(e) en service de soins de suite et de réadaptation (SSR), en collaboration avec l'IDE. Vous prenez en charge une patiente présentant des troubles de la communication verbale.",
+    situation: "Madame B., 72 ans, a été victime d'un AVC ischémique ayant entraîné une hémiplégie droite et une aphasie (elle comprend en partie mais ne peut pas parler de façon compréhensible). Antécédents : hypertension artérielle, fibrillation auriculaire. Elle est consciente, orientée, mais s'exprime difficilement, cherche ses mots, s'énerve et pleure quand on ne la comprend pas. Ce matin, lors de votre tour, elle est agitée, grimace, désigne son ventre de la main valide et tire sur sa protection. Elle tente de parler mais aucun mot clair ne sort. Une nouvelle collègue vous dit : \"De toute façon elle ne parle pas, on ne peut rien comprendre.\"",
+    questions: [
+      {
+        q: "Quels moyens de communication adaptés mettez-vous en place pour entrer en relation avec Madame B. malgré son aphasie ?",
+        type: "open",
+        corrige: "Privilégier la communication non verbale et des aides adaptées. Se placer face à elle, à sa hauteur, capter son regard, parler lentement, avec des phrases courtes et simples, une seule idée à la fois, en laissant le temps de répondre. Poser des questions fermées auxquelles elle peut répondre par oui/non (hochement de tête, geste, clignement). Utiliser les gestes, le pointage, les mimiques, le toucher relationnel, les supports (images, pictogrammes, ardoise, tableau de communication, désignation d'objets). Observer attentivement le non-verbal (mimiques, gestes, regard, attitude corporelle) pour décoder ses besoins. Vérifier qu'on a bien compris en reformulant et en faisant confirmer. Valoriser ses efforts, ne pas finir ses phrases à sa place de façon systématique, ne pas la presser, rester patient et bienveillant. Réduire le bruit et les distractions. Solliciter l'orthophoniste/l'équipe pour les outils adaptés.",
+      },
+      {
+        q: "Face à l'attitude de la patiente (grimaces, désignation du ventre, agitation), comment interprétez-vous ces signes et que faites-vous ?",
+        type: "open",
+        corrige: "Considérer la communication non verbale comme une expression de besoin ou d'inconfort à décoder. Les grimaces et l'agitation peuvent traduire une douleur ; la désignation du ventre et le fait de tirer sur la protection orientent vers un inconfort abdominal, un besoin d'élimination (envie d'uriner/d'aller à la selle, protection souillée, globe vésical, constipation) ou une douleur. Conduite : rechercher la cause par des questions fermées et l'observation, vérifier la protection et proposer d'aller aux toilettes/le change, évaluer la douleur avec une échelle adaptée (hétéro-évaluation type Algoplus/ECPA chez une personne non communicante). Répondre au besoin identifié dans son rôle propre, rassurer la patiente. Transmettre sans délai à l'IDE toute suspicion de douleur ou d'anomalie. Ne jamais négliger ces signes sous prétexte qu'elle \"ne parle pas\".",
+      },
+      {
+        q: "Quelle affirmation concernant la communication avec une personne aphasique est correcte ?",
+        type: "qcm",
+        options: [
+          "Comme elle ne parle pas, il est inutile de lui adresser la parole",
+          "Il faut lui parler fort et vite car elle est forcément sourde et ne comprend rien",
+          "Elle peut comprendre tout ou partie de ce qu'on lui dit : il faut continuer à communiquer avec elle, simplement et avec patience, en s'appuyant sur le non-verbal",
+          "Il faut systématiquement parler à sa place pour aller plus vite",
+        ],
+        correct: 2,
+        corrige: "L'aphasie touche l'expression (et parfois partiellement la compréhension) mais ce n'est pas une surdité ni une absence de pensée. La patiente reste un interlocuteur à part entière : il faut continuer à lui parler normalement, simplement, avec patience, en s'appuyant sur la communication non verbale et des outils adaptés, sans crier ni la déposséder de sa parole.",
+      },
+      {
+        q: "Madame B. pleure et s'énerve de ne pas être comprise. Quelle attitude relationnelle adoptez-vous ?",
+        type: "qcm",
+        options: [
+          "Lui dire de se calmer et quitter la chambre le temps qu'elle se reprenne",
+          "Rester calme et patient, reconnaître sa frustration, la rassurer, lui montrer qu'on prend le temps de la comprendre et la valoriser dans ses efforts",
+          "Hausser le ton pour qu'elle se concentre mieux",
+          "Faire semblant d'avoir compris pour ne pas la contrarier",
+        ],
+        correct: 1,
+        corrige: "La frustration de ne pas être comprise est légitime et source de souffrance. Il faut accueillir l'émotion, rassurer, rester patient, prendre le temps et valoriser les efforts de la patiente, en cherchant réellement à comprendre. Abandonner, hausser le ton ou faire semblant d'avoir compris aggrave la détresse et peut conduire à un besoin non satisfait.",
+      },
+      {
+        q: "Pourquoi est-il important de préserver l'estime de soi et la dignité de Madame B. dans cette situation, et comment y contribuez-vous ?",
+        type: "open",
+        corrige: "Les troubles de la communication et la dépendance peuvent altérer profondément l'estime de soi et exposer à un sentiment d'humiliation, d'isolement et de perte d'autonomie. Préserver la dignité maintient la qualité de vie, la confiance et favorise la récupération. Contribution de l'AS : s'adresser à elle en adulte (jamais d'infantilisation ni de tutoiement non souhaité), respecter son rythme, sa pudeur et son intimité lors des soins, expliquer ce que l'on fait, solliciter sa participation et son choix dès que possible, valoriser ses réussites, ne pas parler d'elle devant elle comme si elle était absente, soutenir le lien avec ses proches. Maintenir une communication respectueuse, patiente et bienveillante, et l'encourager dans sa rééducation en lien avec l'équipe (orthophoniste, IDE).",
+      },
+    ],
+    demarche: "Démarche attendue : maintenir la communication avec une personne aphasique en s'appuyant sur le non-verbal et des outils adaptés (questions fermées, gestes, pictogrammes, ardoise), à son rythme, avec patience et sans la déposséder de sa parole. Décoder les signes non verbaux comme l'expression d'un besoin ou d'une douleur (désignation du ventre, agitation), rechercher et satisfaire le besoin (élimination, douleur évaluée par hétéro-évaluation), transmettre à l'IDE. Accueillir la frustration et l'émotion, préserver l'estime de soi et la dignité (s'adresser en adulte, respecter l'intimité, valoriser les efforts), et travailler en lien avec l'équipe pluridisciplinaire.",
+  },
+];
