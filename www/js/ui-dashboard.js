@@ -52,10 +52,11 @@ export function renderDashboard(root) {
     el("div", { class: "stat" }, [el("div", { class: "v" }, [String(p.cardsReviewed)]), el("div", { class: "l" }, ["Cartes"])]),
   ]));
 
+  const wrong = Storage.wrongIds().length;
   root.appendChild(el("div", { class: "section-title" }, ["Accès rapides"]));
   root.appendChild(el("div", { class: "grid grid-2" }, [
     quick("🎯", "QCM express", "20 questions au hasard", () => navigate("entrainement", { mode: "qcmRandom" })),
-    quick("🩺", "Situations", "Mises en situation", () => navigate("entrainement", { mode: "situations" })),
+    wrong ? quick("🩹", "Mes erreurs", `${wrong} à revoir`, () => navigate("entrainement", { mode: "errors" })) : quick("🩺", "Situations", "Mises en situation", () => navigate("entrainement", { mode: "situations" })),
     quick("🧰", "Boîte à outils", "Constantes, gestes, hygiène…", () => navigate("outils")),
     quick("📋", "DEAS / Examen", "Blocs, stages, certification", () => navigate("deas")),
   ]));

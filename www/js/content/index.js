@@ -6,8 +6,24 @@ import { modById } from "./referentiel.js";
 const PACK_FILES = [
   "transversal",
   "situations",
-  "mod_1", "mod_2", "mod_3", "mod_4", "mod_5",
-  "mod_6", "mod_7", "mod_8", "mod_9", "mod_10",
+  "mod_1",
+  "mod_1_plus",
+  "mod_2",
+  "mod_2_plus",
+  "mod_3",
+  "mod_3_plus",
+  "mod_4",
+  "mod_4_plus",
+  "mod_5",
+  "mod_5_plus",
+  "mod_6",
+  "mod_6_plus",
+  "mod_7",
+  "mod_7_plus",
+  "mod_8",
+  "mod_8_plus",
+  "mod_9",
+  "mod_10",
 ];
 
 let _cache = null;
@@ -29,9 +45,12 @@ export async function loadContent() {
     if (Array.isArray(m.flashcards)) flashcards.push(...m.flashcards);
     if (Array.isArray(m.cas)) cas.push(...m.cas);
   }
+  // IDs stables basés sur le contenu (résistent à l'ajout de packs → SRS et « mes erreurs » préservés).
+  const h = (s) => { let x = 5381; const t = String(s || ""); for (let i = 0; i < t.length; i++) x = ((x << 5) + x) ^ t.charCodeAt(i); return (x >>> 0).toString(36); };
+  const uniq = (list, makeId) => { const seen = new Set(); for (const it of list) { if (!it.id) { let id = makeId(it); while (seen.has(id)) id += "_b"; it.id = id; } seen.add(it.id); } };
   fiches.forEach((f, i) => { if (!f.id) f.id = "f_" + i; });
-  qcm.forEach((q, i) => { if (!q.id) q.id = "q_" + i; });
-  flashcards.forEach((c, i) => { if (!c.id) c.id = "fc_" + i; });
+  uniq(qcm, (q) => "q_" + (q.mod || q.ueId || "x") + "_" + h(q.q));
+  uniq(flashcards, (c) => "fc_" + (c.mod || c.ueId || "x") + "_" + h(c.recto));
   cas.forEach((c, i) => { if (!c.id) c.id = "cas_" + i; });
   _cache = { fiches, qcm, flashcards, cas };
   return _cache;

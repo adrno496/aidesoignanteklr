@@ -17,6 +17,7 @@ const KEYS = {
   tfe: "aideso_tfe",              // données du mémoire de l'étudiant·e
   notes: "aideso_notes",          // notes personnelles : { refId: "texte" }
   planner: "aideso_planner",      // planning de révision
+  wrong: "aideso_wrong",          // QCM ratés : { qcmId: nbErreurs }
   device_id: "aideso_device_id",
 };
 
@@ -259,6 +260,12 @@ export const Storage = {
     const t = now || Date.now();
     return Object.keys(s).filter((id) => (s[id].due || 0) <= t);
   },
+
+  // QCM ratés — alimente le mode « réviser mes erreurs ».
+  getWrong() { return lsGet(KEYS.wrong) || {}; },
+  markWrong(id) { if (!id) return; const w = this.getWrong(); w[id] = (w[id] || 0) + 1; lsSet(KEYS.wrong, w); },
+  clearWrong(id) { const w = this.getWrong(); if (id in w) { delete w[id]; lsSet(KEYS.wrong, w); } },
+  wrongIds() { return Object.keys(this.getWrong()); },
 
   // Generic key store
   getKey(name, fallback = null) { return lsGet(KEYS[name] || name) ?? fallback; },

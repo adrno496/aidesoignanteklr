@@ -24,23 +24,37 @@ function award(xp) {
 
 export function renderEntrainement(root, opts = {}) {
   switch (opts.mode) {
-    case "review": return startFlashcards(root);
+    case "review": return startFlashcards(root, opts.flashPool);
     case "qcmRandom": return startQcm(root, pickQcm(allQcm(), 20), { title: "QCM express" });
     case "qcm": return startQcm(root, opts.pool || pickQcm(allQcm(), 20), { title: opts.title || "QCM" });
     case "situations": return showCasList(root);
+    case "errors": return startErrors(root);
     default: return showHub(root);
   }
+}
+
+function startErrors(root) {
+  const byId = new Map(allQcm().map((q) => [q.id, q]));
+  const pool = Storage.wrongIds().map((id) => byId.get(id)).filter(Boolean);
+  if (!pool.length) {
+    header(root, "Mes erreurs", null, () => { root.innerHTML = ""; showHub(root); });
+    root.appendChild(el("div", { class: "empty" }, [el("div", { class: "empty-ic" }, ["🎉"]), el("p", {}, ["Aucune erreur à revoir."]), el("p", { class: "small muted" }, ["Les QCM ratés s'ajoutent ici automatiquement."])]));
+    return;
+  }
+  startQcm(root, pickQcm(pool, Math.min(30, pool.length)), { title: "Mes erreurs" });
 }
 
 function showHub(root) {
   header(root, "S'entraîner", "Choisis ton mode de révision.");
   const due = Storage.dueCardIds().length;
+  const wrong = Storage.wrongIds().length;
   root.appendChild(el("div", { class: "list" }, [
     modeCard("🔁", "Flashcards intelligentes", `Répétition espacée${due ? ` · ${due} à revoir` : ""}`, () => startFlashcards(root)),
     modeCard("🎯", "QCM par thème", "Choisis un bloc ou un module", () => showQcmPicker(root)),
+    wrong ? modeCard("🩹", "Réviser mes erreurs", `${wrong} question${wrong > 1 ? "s" : ""} à revoir`, () => startErrors(root)) : null,
     modeCard("⏱️", "Examen blanc", "20 QCM chronométrés, correction à la fin", () => startExam(root)),
     modeCard("🩺", "Situations professionnelles", "Mises en situation à analyser", () => showCasList(root)),
-  ]));
+  ].filter(Boolean)));
 }
 function modeCard(icon, title, sub, onclick) {
   return el("button", { class: "row", onclick }, [
@@ -48,6 +62,26 @@ function modeCard(icon, title, sub, onclick) {
     el("span", { class: "row-main" }, [el("div", { class: "row-title" }, [title]), el("div", { class: "row-sub" }, [sub])]),
     el("span", { class: "row-chev" }, ["›"]),
   ]);
+}
+
+// Raccourcis clavier pendant un quiz : 1-9 / A-Z pour répondre, Entrée/Espace pour continuer.
+function installQuizKeys(area) {
+  const onKey = (e) => {
+    if (!document.body.contains(area)) { document.removeEventListener("keydown", onKey); return; }
+    if (document.querySelector(".modal-overlay")) return;
+    const explain = area.querySelector(".explain");
+    if (explain) {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); const nb = explain.querySelector("button"); if (nb) nb.click(); }
+      return;
+    }
+    const opts = area.querySelectorAll(".opt");
+    if (!opts.length) return;
+    let idx = -1;
+    if (/^[1-9]$/.test(e.key)) idx = +e.key - 1;
+    else if (/^[a-z]$/i.test(e.key)) idx = e.key.toLowerCase().charCodeAt(0) - 97;
+    if (idx >= 0 && idx < opts.length && !opts[idx].hasAttribute("disabled")) { e.preventDefault(); opts[idx].click(); }
+  };
+  document.addEventListener("keydown", onKey);
 }
 
 function showQcmPicker(root) {
@@ -85,6 +119,7 @@ function startQcm(root, pool, { title = "QCM" } = {}) {
   const area = el("div", {});
   header(root, title, null, () => { root.innerHTML = ""; showHub(root); });
   root.appendChild(area);
+  installQuizKeys(area);
 
   function renderQ() {
     area.innerHTML = "";
@@ -108,6 +143,7 @@ function startQcm(root, pool, { title = "QCM" } = {}) {
       const correct = chosen === q.correct;
       if (correct) score++;
       Storage.recordQcm(q.mod, correct);
+      if (correct) Storage.clearWrong(q.id); else Storage.markWrong(q.id);
       award(correct ? XP.qcmCorrect : XP.qcmWrong);
       [...opts.children].forEach((b, idx) => {
         b.setAttribute("disabled", "");
@@ -160,9 +196,9 @@ function buildReviewQueue() {
   return [...due, ...fresh];
 }
 
-function startFlashcards(root) {
+function startFlashcards(root, pool) {
   root.innerHTML = "";
-  const queue = buildReviewQueue();
+  const queue = pool && pool.length ? [...pool] : buildReviewQueue();
   header(root, "Flashcards", null, () => { root.innerHTML = ""; showHub(root); });
   if (!queue.length) {
     root.appendChild(el("div", { class: "empty" }, [el("div", { class: "empty-ic" }, ["🎉"]), el("p", {}, ["Aucune carte à réviser pour le moment."])]));
@@ -235,6 +271,7 @@ function startExam(root) {
   header(root, "Examen blanc", `${pool.length} questions · ${perQ}s/question`, () => { root.innerHTML = ""; showHub(root); });
   const area = el("div", {});
   root.appendChild(area);
+  installQuizKeys(area);
   let timer = null, remaining = perQ;
 
   function renderQ() {
@@ -254,7 +291,7 @@ function startExam(root) {
   function finish() {
     clearInterval(timer);
     let score = 0;
-    pool.forEach((q, idx) => { const ok = answers[idx] === q.correct; if (ok) score++; Storage.recordQcm(q.mod, ok); });
+    pool.forEach((q, idx) => { const ok = answers[idx] === q.correct; if (ok) score++; Storage.recordQcm(q.mod, ok); if (ok) Storage.clearWrong(q.id); else Storage.markWrong(q.id); });
     Storage.bump("examsTaken");
     award(XP.examFinished);
     Storage.logSession({ type: "exam", count: pool.length, correct: score });

@@ -1,8 +1,8 @@
 // Panneau Cours : navigation Bloc → Module → fiche, recherche, favoris, TTS, glossaire.
-import { el, toast } from "./app.js";
+import { el, toast, navigate } from "./app.js";
 import { Storage } from "./storage.js";
 import { BLOCS, MODULES, modById, modulesByBloc, blocCouleur } from "./content/referentiel.js";
-import { fichesForMod, modStats, searchFiches, allFiches } from "./content/index.js";
+import { fichesForMod, modStats, searchFiches, allFiches, qcmForMod, flashcardsForMod, pickQcm } from "./content/index.js";
 import { lookup } from "./content/glossaire.js";
 import { speak, stopSpeech, isTtsAvailable } from "./tts.js";
 
@@ -89,6 +89,14 @@ function showModule(root, mod) {
         ...m.comp.map((c) => el("span", { class: "badge" }, ["Compétence " + c])),
       ]),
     ]));
+  }
+  // Réviser directement ce module
+  const nQcm = qcmForMod(mod).length, nCards = flashcardsForMod(mod).length;
+  if (nQcm || nCards) {
+    root.appendChild(el("div", { class: "flex", style: { gap: "8px", marginBottom: "12px" } }, [
+      nQcm ? el("button", { class: "btn btn-soft", style: { flex: "1" }, onclick: () => navigate("entrainement", { mode: "qcm", pool: pickQcm(qcmForMod(mod), Math.min(20, nQcm)), title: "Module " + mod }) }, [`🎯 QCM (${nQcm})`]) : null,
+      nCards ? el("button", { class: "btn btn-soft", style: { flex: "1" }, onclick: () => navigate("entrainement", { mode: "review", flashPool: flashcardsForMod(mod) }) }, [`🔁 Cartes (${nCards})`]) : null,
+    ].filter(Boolean)));
   }
   const fiches = fichesForMod(mod);
   if (!fiches.length) {
