@@ -15,6 +15,7 @@ import { renderProfile } from "./ui-profile.js";
 import { renderOutils } from "./ui-outils.js";
 import { renderSettings } from "./ui-settings.js";
 import { renderPlanner } from "./ui-planner.js";
+import { renderIa } from "./ui-ia.js";
 
 const PANELS = {
   dashboard:    { id: "dashboard",    label: "Accueil",     icon: "🏠", render: renderDashboard },
@@ -24,6 +25,7 @@ const PANELS = {
   profile:      { id: "profile",      label: "Profil",      icon: "👤", render: renderProfile },
   outils:       { id: "outils",       label: "Outils",      icon: "🧰", render: renderOutils, hidden: true },
   planner:      { id: "planner",      label: "Planning",    icon: "🗓️", render: renderPlanner, hidden: true },
+  ia:           { id: "ia",           label: "IA",          icon: "🤖", render: renderIa, hidden: true },
   settings:     { id: "settings",     label: "Réglages",    icon: "⚙️", render: renderSettings, hidden: true },
 };
 

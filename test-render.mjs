@@ -68,10 +68,12 @@ const outils = await import("./www/js/ui-outils.js");
 const prof = await import("./www/js/ui-profile.js");
 const settings = await import("./www/js/ui-settings.js");
 const planner = await import("./www/js/ui-planner.js");
+const ia = await import("./www/js/ui-ia.js");
 
 console.log("\nRendu des panneaux :");
 run("Dashboard", (r) => dash.renderDashboard(r));
 run("Planning", (r) => planner.renderPlanner(r));
+run("Demander à l'IA", (r) => ia.renderIa(r));
 run("Cours (accueil)", (r) => cours.renderCours(r));
 run("Cours (Module 3)", (r) => cours.renderCours(r, { mod: "3" }));
 run("Cours (fiche)", (r) => cours.renderCours(r, { ficheId: "f_henderson" }));
