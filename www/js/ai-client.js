@@ -65,8 +65,7 @@ export async function ask(userPrompt, { maxTokens = 900 } = {}) {
 }
 
 export const Prompts = {
-  explain: (sujet) => `Explique simplement et en quelques points le concept infirmier suivant, avec un moyen mnémotechnique si possible : "${sujet}".`,
-  quizMe: (sujet) => `Pose-moi 3 questions de type QCM (avec la bonne réponse et une courte justification) sur : "${sujet}".`,
-  case: (ue) => `Génère un court cas clinique réaliste pour l'UE "${ue}", avec 3 questions d'analyse et leur corrigé (démarche de soins).`,
-  tfe: (texte) => `Voici un extrait de mon mémoire infirmier (TFE). Donne-moi un retour critique constructif (problématique, clarté, méthode) et 3 pistes d'amélioration :\n\n"${texte}"`,
+  explain: (sujet) => `Explique simplement et en quelques points, pour une élève aide-soignant·e, le sujet suivant, avec un moyen mnémotechnique si possible : "${sujet}". Reste dans le champ de l'aide-soignant·e.`,
+  quizMe: (sujet) => `Pose-moi 3 questions de type QCM (avec la bonne réponse et une courte justification), niveau aide-soignant·e, sur : "${sujet}".`,
+  case: (mod) => `Génère une courte situation professionnelle réaliste d'aide-soignant·e pour le module "${mod}", avec 3 questions et leur corrigé (conduite à tenir dans le champ AS).`,
 };

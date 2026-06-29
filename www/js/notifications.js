@@ -20,7 +20,7 @@ export function maybeRemind() {
   if (p.lastActiveDate === today) return; // déjà révisé aujourd'hui
   if (now.getHours() >= (s.notifHour || 18)) {
     try {
-      new Notification("Infi — révision du jour", {
+      new Notification("AideSo — révision du jour", {
         body: "C'est le moment de réviser ! Quelques cartes t'attendent. 🔥",
         icon: "icons/icon-192.png",
         badge: "icons/icon-192.png",

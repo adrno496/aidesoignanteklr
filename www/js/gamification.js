@@ -55,8 +55,7 @@ const QUEST_POOL = [
   { id: "q_qcm",   icon: "🎯", label: "Répondre à 30 QCM",       target: 30, field: "qcmAnswered" },
   { id: "q_cards", icon: "🧠", label: "Réviser 40 cartes",       target: 40, field: "cardsReviewed" },
   { id: "q_fiche", icon: "📚", label: "Lire 5 fiches",            target: 5,  field: "fichesRead" },
-  { id: "q_cas",   icon: "🩺", label: "Terminer 2 cas cliniques", target: 2, field: "casCompleted" },
-  { id: "q_calc",  icon: "💉", label: "Réussir 10 calculs",       target: 10, field: "calculsDone" },
+  { id: "q_cas",   icon: "🩺", label: "Terminer 2 situations",    target: 2, field: "casCompleted" },
 ];
 
 // Retourne les quêtes de la semaine avec leur avancement (snapshot pris en début de semaine).

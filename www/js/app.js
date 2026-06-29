@@ -59,13 +59,14 @@ export function toast(message, kind = "info", duration = 2600) {
 // ---------- Modale ----------
 export function openModal(content, opts = {}) {
   const overlay = el("div", { class: "modal-overlay" });
-  const modal = el("div", { class: "modal" }, [el("div", { class: "modal-grab" })]);
+  const modal = el("div", { class: "modal", role: "dialog", "aria-modal": "true", tabindex: "-1" }, [el("div", { class: "modal-grab" })]);
   modal.appendChild(content);
   overlay.appendChild(modal);
   if (opts.dismissable !== false) {
     overlay.addEventListener("click", (e) => { if (e.target === overlay) overlay.remove(); });
   }
   (document.getElementById("modal-root") || document.body).appendChild(overlay);
+  try { modal.focus(); } catch {}
   return overlay;
 }
 export function closeModal() {

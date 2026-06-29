@@ -6,6 +6,8 @@ import { modById } from "./referentiel.js";
 const PACK_FILES = [
   "transversal",
   "situations",
+  "gestes_as_plus",
+  "hygiene_as_plus",
   "mod_1",
   "mod_1_plus",
   "mod_2",
@@ -23,7 +25,10 @@ const PACK_FILES = [
   "mod_8",
   "mod_8_plus",
   "mod_9",
+  "mod_9_plus",
   "mod_10",
+  "mod_10_plus",
+  "relation_fdv_plus",
 ];
 
 let _cache = null;
@@ -49,8 +54,8 @@ export async function loadContent() {
   const h = (s) => { let x = 5381; const t = String(s || ""); for (let i = 0; i < t.length; i++) x = ((x << 5) + x) ^ t.charCodeAt(i); return (x >>> 0).toString(36); };
   const uniq = (list, makeId) => { const seen = new Set(); for (const it of list) { if (!it.id) { let id = makeId(it); while (seen.has(id)) id += "_b"; it.id = id; } seen.add(it.id); } };
   fiches.forEach((f, i) => { if (!f.id) f.id = "f_" + i; });
-  uniq(qcm, (q) => "q_" + (q.mod || q.ueId || "x") + "_" + h(q.q));
-  uniq(flashcards, (c) => "fc_" + (c.mod || c.ueId || "x") + "_" + h(c.recto));
+  uniq(qcm, (q) => "q_" + (q.mod || q.ueId || "x") + "_" + h(q.q + "||" + (q.options || []).join("|")));
+  uniq(flashcards, (c) => "fc_" + (c.mod || c.ueId || "x") + "_" + h(c.recto + "||" + (c.verso || "")));
   cas.forEach((c, i) => { if (!c.id) c.id = "cas_" + i; });
   _cache = { fiches, qcm, flashcards, cas };
   return _cache;
