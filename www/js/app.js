@@ -13,6 +13,7 @@ import { renderDeas } from "./ui-deas.js";
 import { renderProfile } from "./ui-profile.js";
 import { renderOutils } from "./ui-outils.js";
 import { renderSettings } from "./ui-settings.js";
+import { renderPlanner } from "./ui-planner.js";
 
 const PANELS = {
   dashboard:    { id: "dashboard",    label: "Accueil",     icon: "🏠", render: renderDashboard },
@@ -21,6 +22,7 @@ const PANELS = {
   deas:         { id: "deas",         label: "DEAS",        icon: "📋", render: renderDeas },
   profile:      { id: "profile",      label: "Profil",      icon: "👤", render: renderProfile },
   outils:       { id: "outils",       label: "Outils",      icon: "🧰", render: renderOutils, hidden: true },
+  planner:      { id: "planner",      label: "Planning",    icon: "🗓️", render: renderPlanner, hidden: true },
   settings:     { id: "settings",     label: "Réglages",    icon: "⚙️", render: renderSettings, hidden: true },
 };
 

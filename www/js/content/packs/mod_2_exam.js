@@ -1,0 +1,152 @@
+export const cas = [
+  {
+    id: "mod_2_exam_chute_personne_agee",
+    mod: "2",
+    titre: "Prévention du risque de chute chez une personne âgée désorientée",
+    niveau: "Examen",
+    contexte: "Vous êtes aide-soignant(e) en service de gériatrie aiguë, en poste de matin. Vous travaillez en binôme avec une infirmière sous la responsabilité de laquelle vous agissez.",
+    situation: "Madame L., 84 ans, est hospitalisée depuis 3 jours pour une déshydratation sur infection urinaire. Antécédents : hypertension artérielle traitée, arthrose des genoux, troubles cognitifs débutants (maladie d'Alzheimer au stade léger). Elle prend un traitement comprenant un antihypertenseur et, depuis hier soir, un hypnotique pour favoriser le sommeil. Ce matin, ses constantes sont : TA 105/65 mmHg debout (contre 130/80 couchée), pouls 88/min, température 37,2 °C. Elle se plaint de vertiges au lever. Elle est désorientée dans le temps, cherche à se lever seule pour aller aux toilettes, ses pantoufles sont usées et le sol de la chambre vient d'être lavé. Une sonnette est présente mais hors de portée. Lors de votre tour, vous la retrouvez assise au bord du lit, prête à se lever sans aide.",
+    questions: [
+      {
+        q: "Identifiez et classez les facteurs de risque de chute présents chez Madame L. (facteurs intrinsèques et extrinsèques).",
+        type: "open",
+        corrige: "Facteurs intrinsèques (liés à la personne) : âge avancé (84 ans), troubles cognitifs et désorientation, arthrose des genoux limitant la mobilité, hypotension orthostatique (TA chutant au lever, vertiges), prise d'un hypnotique (somnolence, baisse de la vigilance) et d'un antihypertenseur, contexte de déshydratation et d'infection urinaire. Facteurs extrinsèques (liés à l'environnement) : sol mouillé glissant, pantoufles usées et inadaptées, sonnette hors de portée, absence d'aide au lever, possible mauvais éclairage ou obstacles. Le repérage des deux catégories et le lien avec la situation rapportent les points.",
+      },
+      {
+        q: "Quelles mesures de prévention immédiates et organisationnelles mettez-vous en place pour sécuriser Madame L. ?",
+        type: "open",
+        corrige: "Mesures immédiates : rester auprès d'elle, ne pas la laisser se lever seule, l'aider au lever en respectant le lever progressif (assise quelques instants au bord du lit avant la verticalisation) pour limiter l'hypotension orthostatique. Mesures durables : mettre la sonnette à portée de main, sécher le sol ou signaler le sol mouillé, fournir des chaussures fermées antidérapantes, libérer l'espace des obstacles, baisser le lit à hauteur basse, vérifier l'éclairage, proposer un accompagnement régulier aux toilettes (anticipation des besoins), surveiller les effets de l'hypnotique. Transmettre à l'IDE l'hypotension orthostatique et la désorientation. Tracer les actions dans le dossier de soins.",
+      },
+      {
+        q: "Vous devez accompagner Madame L. aux toilettes. Quel est l'ordre logique des étapes du lever sécurisé d'une personne présentant une hypotension orthostatique ?",
+        type: "qcm",
+        options: [
+          "La faire lever debout rapidement puis marcher aussitôt",
+          "La redresser en position assise au bord du lit, marquer un temps de pause, vérifier l'absence de vertige, puis l'aider à se verticaliser",
+          "La porter jusqu'aux toilettes pour éviter tout effort",
+          "Lui demander de se lever seule pour évaluer son autonomie",
+        ],
+        correct: 1,
+        corrige: "Le lever doit être progressif : passage en position assise, temps de pause, vérification de l'absence de malaise ou de vertige, puis verticalisation accompagnée. Cela laisse le temps à la pression artérielle de se réguler et prévient le malaise et la chute.",
+      },
+      {
+        q: "Concernant la contention physique (barrières de lit, ceinture), quelle affirmation est exacte dans le cadre de la prévention des chutes ?",
+        type: "qcm",
+        options: [
+          "L'aide-soignant peut décider seul de poser une contention pour sécuriser la patiente",
+          "La contention est une mesure de première intention systématique chez la personne âgée",
+          "La contention relève d'une prescription médicale, est une mesure de dernier recours et nécessite une surveillance accrue car elle comporte des risques",
+          "Les barrières de lit suppriment totalement le risque de chute",
+        ],
+        correct: 2,
+        corrige: "La contention physique est une mesure de dernier recours, sur prescription médicale, réévaluée régulièrement. Elle comporte ses propres risques (agitation, chute par-dessus la barrière, complications de l'immobilité) et impose une surveillance renforcée. Elle ne dispense jamais des autres mesures de prévention.",
+      },
+      {
+        q: "Madame L. chute finalement dans sa chambre pendant votre absence. Décrivez votre conduite à tenir immédiate.",
+        type: "open",
+        corrige: "Ne pas relever la patiente immédiatement. Évaluer l'état de conscience, la respirer, rechercher une douleur, une déformation (suspicion de fracture, notamment du col du fémur), une plaie, un saignement. La rassurer, la couvrir, la maintenir au sol si suspicion de fracture. Alerter sans délai l'IDE et/ou le médecin. Ne mobiliser qu'après évaluation. Surveiller les constantes. Tracer la chute, les circonstances et l'heure dans le dossier ; remplir la fiche de déclaration d'événement indésirable. Participer à l'analyse des causes pour éviter la récidive.",
+      },
+    ],
+    demarche: "Démarche attendue par le jury : repérer la personne à risque de chute (grille d'évaluation), distinguer facteurs intrinsèques et extrinsèques, appliquer des mesures de prévention environnementales et d'accompagnement (lever progressif, sonnette accessible, chaussage adapté, sol sec, anticipation des besoins), agir dans son rôle propre et transmettre à l'IDE. Connaître le cadre de la contention (prescription, dernier recours). En cas de chute : évaluer avant de mobiliser, alerter, surveiller, tracer et déclarer.",
+  },
+  {
+    id: "mod_2_exam_escarre_alite",
+    mod: "2",
+    titre: "Prévention du risque d'escarre chez un patient alité",
+    niveau: "Examen",
+    contexte: "Vous êtes aide-soignant(e) en service de médecine, en collaboration avec l'infirmière. Vous assurez les soins d'hygiène et de confort d'un patient à mobilité réduite.",
+    situation: "Monsieur D., 76 ans, est alité depuis 8 jours à la suite d'un accident vasculaire cérébral ayant entraîné une hémiplégie droite. Antécédents : diabète de type 2, dénutrition (IMC à 18, perte de poids récente), incontinence urinaire. Il est peu mobile, ne se retourne pas seul dans le lit et passe de longues périodes en position dorsale. Lors de la toilette, vous observez au niveau du sacrum une rougeur qui ne s'efface pas à la pression du doigt. La peau des talons est intacte mais le siège est régulièrement humide du fait de l'incontinence. Le patient mange peu et boit insuffisamment.",
+    questions: [
+      {
+        q: "Définissez l'escarre et citez les principaux facteurs de risque présents chez Monsieur D.",
+        type: "open",
+        corrige: "L'escarre est une lésion cutanée d'origine ischémique liée à une compression prolongée des tissus mous entre une saillie osseuse et un plan dur. Facteurs de risque chez Monsieur D. : immobilité et alitement prolongé (hémiplégie, AVC), dénutrition (IMC 18, perte de poids), diabète (troubles de la microcirculation et de la cicatrisation), incontinence et macération (humidité du siège), âge avancé, possibles forces de cisaillement lors des glissements. La définition et le repérage des facteurs rapportent les points.",
+      },
+      {
+        q: "Que traduit la rougeur du sacrum qui ne s'efface pas à la pression ? À quel stade correspond-elle ?",
+        type: "qcm",
+        options: [
+          "Une simple irritation sans gravité, à surveiller dans une semaine",
+          "Une escarre de stade 1 (érythème qui ne blanchit pas), premier signe d'alerte imposant une prise en charge immédiate",
+          "Une escarre de stade 4 avec atteinte de l'os",
+          "Une mycose cutanée",
+        ],
+        correct: 1,
+        corrige: "Une rougeur persistante qui ne blanchit pas à la pression du doigt correspond à une escarre de stade 1. C'est un signe d'alerte précoce et réversible qui impose la mise en œuvre immédiate des mesures de prévention et une transmission à l'IDE.",
+      },
+      {
+        q: "Détaillez les mesures de prévention de l'escarre que vous mettez en œuvre dans votre rôle d'aide-soignant.",
+        type: "open",
+        corrige: "Mobilisation et changements de position : alterner les positions toutes les 2 à 3 heures (décubitus dorsal, latéral 30° droit et gauche), planifier et tracer les changements, éviter l'appui prolongé sur la zone rougie. Diminuer la pression : matelas ou support adapté (matelas à air, coussins de positionnement), éviter les frictions et le cisaillement lors des transferts. Maintenir l'hygiène et l'intégrité cutanée : toilette douce, séchage soigneux par tamponnement, changes fréquents pour limiter la macération, surveillance quotidienne des points d'appui (sacrum, talons, trochanters, occiput). Hydratation cutanée. Participer à la nutrition et l'hydratation : aider à l'alimentation, surveiller et transmettre les apports, signaler la dénutrition. Ne PAS masser la rougeur ni utiliser de glaçons. Transmettre et tracer.",
+      },
+      {
+        q: "Parmi ces pratiques, laquelle est PROSCRITE car potentiellement délétère pour la peau menacée d'escarre ?",
+        type: "qcm",
+        options: [
+          "Effectuer des changements de position réguliers",
+          "Masser énergiquement la zone rouge avec friction pour activer la circulation",
+          "Maintenir la peau propre et sèche",
+          "Utiliser un matelas anti-escarre",
+        ],
+        correct: 1,
+        corrige: "Le massage appuyé d'une zone rougie est proscrit : il aggrave les lésions ischémiques des tissus fragilisés. Les recommandations actuelles déconseillent les massages et frictions sur les points d'appui à risque, de même que l'application de glaçons ou d'air chaud.",
+      },
+      {
+        q: "Pourquoi l'état nutritionnel de Monsieur D. est-il un enjeu majeur dans la prévention et la cicatrisation des escarres ? Quel est votre rôle ?",
+        type: "open",
+        corrige: "La dénutrition fragilise la peau, diminue la masse musculaire et la couche graisseuse protectrice des points d'appui, et ralentit fortement la cicatrisation (manque de protéines, de vitamines, d'oligo-éléments). Un apport protéino-énergétique suffisant est essentiel à la prévention et à la guérison de l'escarre. Rôle de l'AS : installer confortablement le patient pour les repas, stimuler et aider à la prise alimentaire, proposer une hydratation régulière, surveiller et quantifier ce qu'il mange et boit, peser selon le protocole, surveiller la peau, et transmettre à l'IDE toute insuffisance d'apport afin d'adapter la prise en charge (compléments, avis diététique).",
+      },
+    ],
+    demarche: "Démarche attendue : évaluer le risque (échelle de type Braund/Norton, repérage des points d'appui), reconnaître l'escarre de stade 1 et alerter, mettre en œuvre les mesures de prévention dans le rôle propre (changements de position planifiés et tracés, supports adaptés, hygiène et lutte contre la macération, surveillance cutanée quotidienne), participer à la nutrition et l'hydratation, proscrire les massages des zones à risque, transmettre et tracer en collaboration avec l'IDE.",
+  },
+  {
+    id: "mod_2_exam_fausse_route",
+    mod: "2",
+    titre: "Prévention du risque de fausse route lors de l'aide au repas",
+    niveau: "Examen",
+    contexte: "Vous êtes aide-soignant(e) en EHPAD. Vous assurez l'aide à la prise des repas d'un résident présentant des troubles de la déglutition.",
+    situation: "Monsieur P., 81 ans, réside en EHPAD. Antécédents : maladie de Parkinson évoluée, antécédent d'AVC avec dysphagie connue. Il présente des troubles de la déglutition : il tousse fréquemment pendant les repas, sa voix devient \\\"mouillée\\\" après avoir bu, et il mange lentement. Une texture modifiée (alimentation hachée et eau gélifiée) a été prescrite. Au moment du déjeuner, vous le retrouvez à moitié allongé dans son fauteuil, la télévision allumée, un verre d'eau plate (non épaissie) posé sur sa table. Une collègue pressée vous suggère de \\\"lui donner vite son repas pour gagner du temps\\\".",
+    questions: [
+      {
+        q: "Définissez la fausse route et citez les signes qui doivent vous alerter sur un trouble de la déglutition chez Monsieur P.",
+        type: "open",
+        corrige: "La fausse route est le passage accidentel d'aliments, de liquides ou de salive dans les voies respiratoires au lieu de l'œsophage, lors de la déglutition. Signes d'alerte chez Monsieur P. : toux pendant ou après les repas, voix \\\"mouillée\\\" ou modifiée après la prise de boisson, lenteur à manger, raclements de gorge, bavage, stagnation des aliments en bouche, parfois larmoiement ou cyanose. Les facteurs de risque sont la maladie de Parkinson, l'antécédent d'AVC et la dysphagie connue.",
+      },
+      {
+        q: "Quelles sont les conditions d'installation et de réalisation d'un repas sécurisé pour prévenir la fausse route ?",
+        type: "open",
+        corrige: "Installation : patient bien réveillé, assis le plus droit possible (position assise à 90°, tête légèrement penchée en avant, menton vers le bas), jamais couché ou semi-allongé. Environnement calme, sans distraction (télévision éteinte), prendre le temps. Pendant le repas : respecter la texture prescrite (alimentation hachée, eau gélifiée/épaissie, pas d'eau plate), donner de petites quantités, à un rythme lent, vérifier que la bouche est vide avant la bouchée suivante, ne pas faire parler le résident en mangeant, se placer à sa hauteur ou en dessous. Après le repas : maintenir la position assise 20 à 30 minutes, vérifier l'absence de résidus en bouche, assurer les soins de bouche. Surveiller toux et signes de fausse route. Refuser de \\\"donner vite\\\" le repas. Transmettre et tracer.",
+      },
+      {
+        q: "Concernant la position lors du repas de Monsieur P., quelle est la consigne correcte ?",
+        type: "qcm",
+        options: [
+          "Position semi-allongée, tête en arrière pour faciliter la descente des aliments",
+          "Position assise droite, tête légèrement fléchie en avant (menton vers la poitrine)",
+          "Position couchée sur le côté",
+          "Peu importe la position tant que le résident mange",
+        ],
+        correct: 1,
+        corrige: "La position de sécurité est assise, le tronc bien droit, la tête légèrement penchée en avant (flexion du menton vers la poitrine). La tête en arrière ouvre les voies aériennes et majore le risque de fausse route ; elle est donc à proscrire.",
+      },
+      {
+        q: "Le verre d'eau plate non épaissie posé sur la table pose un problème. Pourquoi, et que faites-vous ?",
+        type: "qcm",
+        options: [
+          "Aucun problème, l'eau plate est toujours sans danger",
+          "Les liquides clairs sont les plus à risque de fausse route chez un patient dysphagique : il faut retirer l'eau plate et donner de l'eau gélifiée/épaissie conformément à la prescription",
+          "Il faut au contraire le faire boire beaucoup d'eau plate pour l'hydrater vite",
+          "Il faut lui donner l'eau avec une paille en position allongée",
+        ],
+        correct: 1,
+        corrige: "Chez le patient dysphagique, les liquides fluides (eau plate) sont particulièrement dangereux car ils s'écoulent vite et sont difficiles à contrôler, d'où le risque majeur de fausse route. La prescription d'eau gélifiée/épaissie doit être respectée : retirer l'eau plate, fournir de l'eau épaissie et tracer l'incident.",
+      },
+      {
+        q: "Monsieur P. fait une fausse route avec étouffement pendant le repas. Décrivez votre conduite à tenir.",
+        type: "open",
+        corrige: "Évaluer immédiatement : s'il tousse efficacement et peut parler/respirer, l'encourager à tousser, ne pas intervenir mécaniquement, rester près de lui, le pencher en avant. Si l'obstruction est totale (il ne peut plus parler, ni tousser, ni respirer, cyanose, signe de la main à la gorge) : alerter, donner 5 claques vigoureuses dans le dos entre les omoplates, puis si inefficace réaliser la manœuvre de Heimlich (compressions abdominales), en alternant, jusqu'à désobstruction. Appeler l'IDE/secours sans délai. Si perte de connaissance : allonger, alerter, débuter la réanimation cardio-pulmonaire selon le protocole. Après l'épisode : surveiller (risque de pneumopathie d'inhalation), transmettre, tracer et déclarer l'événement.",
+      },
+    ],
+    demarche: "Démarche attendue : repérer le patient à risque de fausse route et les signes de dysphagie, sécuriser le repas (installation assise tête fléchie, environnement calme, respect des textures et de l'épaississement des liquides, petites bouchées, rythme lent, maintien assis après le repas), refuser toute pratique dangereuse (repas donné trop vite, position allongée, liquides non épaissis). En cas de fausse route : distinguer obstruction partielle (favoriser la toux) et totale (claques dorsales puis manœuvre de Heimlich, alerte, RCP si arrêt). Surveiller, transmettre, tracer et déclarer.",
+  },
+];

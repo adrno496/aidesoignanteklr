@@ -2,6 +2,7 @@
 import { el, navigate } from "./app.js";
 import { BLOCS, COMPETENCES, MODULES, STAGES, FORMATION, modulesByBloc } from "./content/referentiel.js";
 import { AFGSU, STAGES_INFO, CERTIFICATION, ROLE_AS, PASSERELLES, CONSEILS } from "./content/deas.js";
+import { allFiches } from "./content/index.js";
 
 export function renderDeas(root) {
   root.appendChild(el("div", { class: "panel-head" }, [
@@ -17,6 +18,19 @@ export function renderDeas(root) {
       kpi("Enseignement", FORMATION.theorie + " h"), kpi("Stage", FORMATION.stage + " h"),
     ]),
   ]));
+
+  // Méthodologie des épreuves (transversal)
+  const meth = allFiches().filter((f) => /^meth_/.test(f.id));
+  if (meth.length) {
+    root.appendChild(el("div", { class: "section-title" }, ["📐 Méthodologie des épreuves"]));
+    const m = el("div", { class: "list" });
+    meth.forEach((f) => m.appendChild(el("button", { class: "row", onclick: () => navigate("cours", { ficheId: f.id }) }, [
+      el("span", { class: "row-ic" }, ["📐"]),
+      el("span", { class: "row-main" }, [el("div", { class: "row-title", style: { fontSize: "0.9rem" } }, [f.titre.replace(/^Méthode\s*:\s*/i, "")]), el("div", { class: "row-sub" }, [f.resume || ""])]),
+      el("span", { class: "row-chev" }, ["›"]),
+    ])));
+    root.appendChild(m);
+  }
 
   // Blocs & compétences
   root.appendChild(el("div", { class: "section-title" }, ["Les 5 blocs de compétences"]));

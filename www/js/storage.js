@@ -271,6 +271,25 @@ export const Storage = {
   getKey(name, fallback = null) { return lsGet(KEYS[name] || name) ?? fallback; },
   setKey(name, value) { return lsSet(KEYS[name] || name, value); },
 
+  // Planning d'examens
+  getExams() { return (lsGet(KEYS.planner) || {}).exams || []; },
+  saveExams(exams) { const p = lsGet(KEYS.planner) || {}; p.exams = exams; lsSet(KEYS.planner, p); },
+  addExam(label, date) { const e = this.getExams(); e.push({ id: uuid(), label: label || "Examen", date }); e.sort((a, b) => a.date.localeCompare(b.date)); this.saveExams(e); },
+  removeExam(id) { this.saveExams(this.getExams().filter((x) => x.id !== id)); },
+  nextExam() { const t = todayStr(); return this.getExams().filter((e) => e.date >= t).sort((a, b) => a.date.localeCompare(b.date))[0] || null; },
+
+  // Coaching : modules les plus fragiles, triés par priorité de révision.
+  weakAreas() {
+    const prog = this.getProgress();
+    const wrongByArea = {};
+    for (const id of this.wrongIds()) { const a = String(id).split("_")[1]; if (a) wrongByArea[a] = (wrongByArea[a] || 0) + 1; }
+    const ids = new Set([...Object.keys(prog), ...Object.keys(wrongByArea)]);
+    return [...ids]
+      .map((id) => ({ id, seen: prog[id]?.qcmSeen || 0, mastery: this.ueMastery(id), wrong: wrongByArea[id] || 0 }))
+      .filter((a) => a.seen >= 2 || a.wrong >= 2)
+      .sort((a, b) => (b.wrong - a.wrong) || (a.mastery - b.mastery));
+  },
+
   // Notes personnelles
   getNote(refId) { return (lsGet(KEYS.notes) || {})[refId] || ""; },
   setNote(refId, text) { const n = lsGet(KEYS.notes) || {}; if (text) n[refId] = text; else delete n[refId]; lsSet(KEYS.notes, n); },
