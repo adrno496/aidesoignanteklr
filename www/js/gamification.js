@@ -28,6 +28,8 @@ export const ACHIEVEMENTS = [
   { id: "fiches_100",  icon: "🎓", title: "Tête bien faite",    desc: "100 fiches lues.",                      check: (p) => p.fichesRead >= 100 },
   { id: "explorer",    icon: "🧭", title: "Curieux·se",         desc: "50 fiches lues.",                       check: (p) => p.fichesRead >= 50 },
   { id: "regulier",    icon: "📅", title: "Régulier·ère",       desc: "14 jours d'affilée.",                   check: (p) => (p.longestStreak || 0) >= 14 },
+  { id: "lexique_25",  icon: "📖", title: "Lexique en marche",  desc: "25 termes débloqués.",                  check: () => Storage.getDiscovered().length >= 25 },
+  { id: "lexique_pro", icon: "📚", title: "Lexicographe",       desc: "60 termes débloqués.",                  check: () => Storage.getDiscovered().length >= 60 },
 ];
 
 // Évalue les succès et débloque les nouveaux. Retourne la liste des nouveaux succès.

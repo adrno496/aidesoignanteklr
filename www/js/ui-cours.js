@@ -3,7 +3,7 @@ import { el, toast, navigate, openModal, closeModal } from "./app.js";
 import { Storage } from "./storage.js";
 import { BLOCS, MODULES, modById, modulesByBloc, blocCouleur } from "./content/referentiel.js";
 import { fichesForMod, modStats, searchFiches, allFiches, qcmForMod, flashcardsForMod, pickQcm } from "./content/index.js";
-import { lookup } from "./content/glossaire.js";
+import { lookup, findTermsInText } from "./content/glossaire.js";
 import { speak, stopSpeech, isTtsAvailable } from "./tts.js";
 import { XP } from "./gamification.js";
 import { isAiEnabled, ask, Prompts } from "./ai-client.js";
@@ -159,6 +159,12 @@ function showFiche(root, f) {
   const body = el("div", { class: "card fiche", html: f.html || "" });
   root.appendChild(body);
   wireGlossary(body);
+
+  // Lexique progressif : débloque les termes rencontrés dans la fiche.
+  const dataTerms = [...body.querySelectorAll(".key[data-term]")].map((sp) => { const e = lookup(sp.getAttribute("data-term")); return e ? e.terme : null; }).filter(Boolean);
+  const plain = f.titre + " " + (f.html || "").replace(/<[^>]+>/g, " ");
+  const newly = Storage.discoverTerms([...new Set([...findTermsInText(plain), ...dataTerms])]);
+  if (newly.length) toast("📖 " + newly.length + " terme" + (newly.length > 1 ? "s" : "") + " ajouté" + (newly.length > 1 ? "s" : "") + " au lexique", "accent", 2200);
 
   if (f.refs && f.refs.length) {
     root.appendChild(el("div", { class: "small muted", style: { marginTop: "10px" } }, ["Sources : " + f.refs.join(" · ")]));

@@ -1,5 +1,6 @@
 // Panneau Boîte à outils clinique : scores, normes, 14 besoins, démarche, transmissions DAR, précautions, glossaire.
 import { el, toast } from "./app.js";
+import { Storage } from "./storage.js";
 import { BESOINS, CONSTANTES, SCORES, PRECAUTIONS, DEMARCHE_STEPS, macrocibleTemplate, MOBILISATION, BIONETTOYAGE } from "./content/outils.js";
 import { GLOSSAIRE } from "./content/glossaire.js";
 
@@ -17,7 +18,7 @@ const TOOLS = [
   { id: "scores", icon: "📊", titre: "Scores cliniques", sub: "Norton (escarre), Glasgow…" },
   { id: "demarche", icon: "🔄", titre: "Démarche de soins", sub: "Les 5 étapes guidées" },
   { id: "dar", icon: "📝", titre: "Transmissions ciblées (DAR)", sub: "Données – Actions – Résultats" },
-  { id: "glossaire", icon: "📖", titre: "Glossaire médical", sub: "Termes & abréviations" },
+  { id: "glossaire", icon: "📖", titre: "Lexique progressif", sub: "Termes débloqués au fil des révisions" },
 ];
 
 function showHub(root) {
@@ -160,16 +161,47 @@ function toolPrecautions(root, back) {
 }
 
 function toolGlossaire(root, back) {
-  head(root, "📖 Glossaire", back);
+  head(root, "📖 Lexique", back);
+  const total = GLOSSAIRE.length;
+  let filter = "tous", query = "";
+  const prog = el("div", { class: "card mb" });
+  const seg = el("div", { class: "segmented mb" });
   const results = el("div", { class: "list" });
-  function render(filter) {
-    results.innerHTML = "";
-    const q = (filter || "").toLowerCase();
-    GLOSSAIRE.filter((g) => !q || g.terme.toLowerCase().includes(q) || g.def.toLowerCase().includes(q))
-      .sort((a, b) => a.terme.localeCompare(b.terme))
-      .forEach((g) => results.appendChild(el("div", { class: "row" }, [el("span", { class: "row-main" }, [el("div", { class: "row-title", style: { fontSize: "0.92rem" } }, [g.terme]), el("div", { class: "row-sub" }, [g.def])])])));
+
+  function renderProgress() {
+    const n = Storage.getDiscovered().length;
+    prog.innerHTML = "";
+    prog.appendChild(el("div", { class: "flex-between", style: { marginBottom: "8px" } }, [el("strong", { class: "small" }, ["📖 Termes débloqués"]), el("span", { class: "badge badge-accent" }, [n + " / " + total])]));
+    prog.appendChild(el("div", { class: "progress" }, [el("span", { style: { width: Math.round(n / total * 100) + "%" } })]));
+    prog.appendChild(el("div", { class: "small muted", style: { marginTop: "6px" } }, ["Les termes se débloquent quand tu les rencontres dans les QCM et les fiches. Touche un terme verrouillé pour révéler sa définition."]));
   }
-  root.appendChild(el("div", { class: "search-bar mb" }, [el("span", { class: "s-ic" }, ["🔎"]), el("input", { type: "search", placeholder: "Rechercher un terme…", oninput: (e) => render(e.target.value) })]));
+  function renderSeg() {
+    seg.innerHTML = "";
+    [["tous", "Tous"], ["done", "Débloqués"], ["todo", "À découvrir"]].forEach(([id, lbl]) =>
+      seg.appendChild(el("button", { class: filter === id ? "active" : "", onclick: () => { filter = id; renderSeg(); renderList(); } }, [lbl])));
+  }
+  function renderList() {
+    results.innerHTML = "";
+    const q = query.toLowerCase();
+    const list = GLOSSAIRE
+      .map((g) => ({ g, done: Storage.isDiscovered(g.terme) }))
+      .filter((x) => filter === "tous" || (filter === "done" && x.done) || (filter === "todo" && !x.done))
+      .filter((x) => !q || x.g.terme.toLowerCase().includes(q) || (x.done && x.g.def.toLowerCase().includes(q)))
+      .sort((a, b) => a.g.terme.localeCompare(b.g.terme));
+    if (!list.length) { results.appendChild(el("div", { class: "empty small" }, ["Aucun terme."])); return; }
+    list.forEach(({ g, done }) => {
+      const defEl = el("div", { class: "row-sub", style: done ? {} : { filter: "blur(3.5px)", cursor: "pointer" } }, [g.def]);
+      const row = el("div", { class: "row" }, [
+        el("span", { class: "row-ic" }, [done ? "📗" : "🔒"]),
+        el("span", { class: "row-main" }, [el("div", { class: "row-title", style: { fontSize: "0.92rem", opacity: done ? "1" : "0.7" } }, [g.terme]), defEl]),
+      ]);
+      if (!done) row.addEventListener("click", () => { defEl.style.filter = "none"; });
+      results.appendChild(row);
+    });
+  }
+  root.appendChild(prog);
+  root.appendChild(el("div", { class: "search-bar mb" }, [el("span", { class: "s-ic" }, ["🔎"]), el("input", { type: "search", placeholder: "Rechercher un terme…", oninput: (e) => { query = e.target.value; renderList(); } })]));
+  root.appendChild(seg);
   root.appendChild(results);
-  render("");
+  renderProgress(); renderSeg(); renderList();
 }

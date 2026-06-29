@@ -42,6 +42,41 @@ export const GLOSSAIRE = [
   { terme: "AVK", def: "Anti-Vitamine K (anticoagulant oral)." },
   { terme: "AOD", def: "Anticoagulant Oral Direct." },
   { terme: "TFE", def: "Travail de Fin d'Études (mémoire infirmier)." },
+  { terme: "HTA", def: "Hypertension artérielle : pression artérielle ≥ 140/90 mmHg." },
+  { terme: "Hypotension", def: "Pression artérielle anormalement basse (< 90/60 mmHg)." },
+  { terme: "Hyperglycémie", def: "Taux de glucose sanguin trop élevé." },
+  { terme: "Hypoglycémie", def: "Taux de glucose sanguin trop bas (< 0,60 g/L) — urgence si symptômes." },
+  { terme: "Globe vésical", def: "Distension de la vessie par rétention aiguë d'urine." },
+  { terme: "Rétention urinaire", def: "Impossibilité d'évacuer les urines présentes dans la vessie." },
+  { terme: "Fécalome", def: "Accumulation de selles dures bloquées dans le rectum." },
+  { terme: "Déshydratation", def: "Perte excessive d'eau de l'organisme (pli cutané, muqueuses sèches…)." },
+  { terme: "Dénutrition", def: "État de carence en énergie et/ou protéines avec retentissement." },
+  { terme: "Ictère", def: "Coloration jaune de la peau et des muqueuses (bilirubine élevée)." },
+  { terme: "Érythème", def: "Rougeur de la peau s'effaçant à la pression." },
+  { terme: "Phlyctène", def: "Cloque, ampoule (décollement cutané avec liquide)." },
+  { terme: "Décubitus", def: "Position allongée (dorsal, ventral, latéral)." },
+  { terme: "PLS", def: "Position Latérale de Sécurité (personne inconsciente qui respire)." },
+  { terme: "Antalgique", def: "Médicament qui combat la douleur (= analgésique)." },
+  { terme: "Antipyrétique", def: "Médicament qui fait baisser la fièvre." },
+  { terme: "Antiémétique", def: "Médicament contre les nausées et vomissements." },
+  { terme: "Posologie", def: "Dose et rythme d'administration d'un médicament." },
+  { terme: "Per os", def: "Par la bouche (voie orale)." },
+  { terme: "Parentérale", def: "Voie d'administration par injection (IV, IM, SC)." },
+  { terme: "Cathéter", def: "Tube fin introduit dans un vaisseau ou une cavité." },
+  { terme: "Sonde nasogastrique", def: "Sonde du nez à l'estomac (alimentation, aspiration)." },
+  { terme: "Anamnèse", def: "Histoire de la maladie recueillie auprès du patient." },
+  { terme: "Étiologie", def: "Cause d'une maladie ou d'un symptôme." },
+  { terme: "Symptôme", def: "Manifestation ressentie ou observée d'une maladie." },
+  { terme: "Syndrome", def: "Ensemble de signes et symptômes caractéristiques." },
+  { terme: "Nosocomial", def: "Contracté lors d'une prise en charge dans un établissement de soins." },
+  { terme: "Prophylaxie", def: "Ensemble des mesures de prévention d'une maladie." },
+  { terme: "Contention", def: "Maintien/immobilisation (physique ou médicamenteuse), encadrée." },
+  { terme: "Bradypnée", def: "Fréquence respiratoire anormalement basse (< 12 /min)." },
+  { terme: "Polyurie", def: "Production excessive d'urine (> 3 L/24 h)." },
+  { terme: "EHPAD", def: "Établissement d'Hébergement pour Personnes Âgées Dépendantes." },
+  { terme: "HAD", def: "Hospitalisation À Domicile." },
+  { terme: "SSR", def: "Soins de Suite et de Réadaptation." },
+  { terme: "BHRe", def: "Bactérie Hautement Résistante émergente." },
 ];
 
 function norm(s) {
@@ -54,4 +89,18 @@ export function lookup(term) {
     || GLOSSAIRE.find((g) => norm(g.terme).startsWith(t))
     || GLOSSAIRE.find((g) => norm(g.terme).includes(t))
     || null;
+}
+
+// Tokenise un texte et renvoie les termes du glossaire qui y apparaissent (pour le lexique progressif).
+function tokens(text) { return " " + norm(text).replace(/[^a-z0-9]+/g, " ").replace(/\s+/g, " ").trim() + " "; }
+export function findTermsInText(text) {
+  if (!text) return [];
+  const hay = tokens(text);
+  const found = [];
+  for (const g of GLOSSAIRE) {
+    const t = norm(g.terme).replace(/[^a-z0-9]+/g, " ").replace(/\s+/g, " ").trim();
+    if (t.length < 2) continue;
+    if (hay.includes(" " + t + " ")) found.push(g.terme);
+  }
+  return found;
 }

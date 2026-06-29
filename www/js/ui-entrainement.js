@@ -5,6 +5,7 @@ import { newCard, review, previewIntervals } from "./srs.js";
 import { XP, checkAchievements } from "./gamification.js";
 import { allQcm, qcmForBloc, qcmForMod, allFlashcards, allCas, pickQcm } from "./content/index.js";
 import { BLOCS, MODULES, modulesByBloc, modById } from "./content/referentiel.js";
+import { findTermsInText } from "./content/glossaire.js";
 import { confettiBurst } from "./confetti.js";
 
 function header(root, title, sub, onBack) {
@@ -148,6 +149,7 @@ function startQcm(root, pool, { title = "QCM" } = {}) {
       if (correct) score++;
       Storage.recordQcm(q.mod, correct);
       if (correct) Storage.clearWrong(q.id); else Storage.markWrong(q.id);
+      Storage.discoverTerms(findTermsInText([q.q, ...(q.options || []), q.explication].join(" ")));
       award(correct ? XP.qcmCorrect : XP.qcmWrong);
       [...opts.children].forEach((b, idx) => {
         b.setAttribute("disabled", "");

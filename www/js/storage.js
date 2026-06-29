@@ -18,6 +18,7 @@ const KEYS = {
   notes: "aideso_notes",          // notes personnelles : { refId: "texte" }
   planner: "aideso_planner",      // planning de révision
   wrong: "aideso_wrong",          // QCM ratés : { qcmId: nbErreurs }
+  glossaire: "aideso_glossaire",  // lexique progressif : [termes débloqués]
   device_id: "aideso_device_id",
 };
 
@@ -266,6 +267,17 @@ export const Storage = {
   markWrong(id) { if (!id) return; const w = this.getWrong(); w[id] = (w[id] || 0) + 1; lsSet(KEYS.wrong, w); },
   clearWrong(id) { const w = this.getWrong(); if (id in w) { delete w[id]; lsSet(KEYS.wrong, w); } },
   wrongIds() { return Object.keys(this.getWrong()); },
+
+  // Lexique progressif : termes du glossaire débloqués au fil des révisions.
+  getDiscovered() { return lsGet(KEYS.glossaire) || []; },
+  isDiscovered(term) { return this.getDiscovered().includes(term); },
+  discoverTerms(terms) {
+    if (!terms || !terms.length) return [];
+    const set = this.getDiscovered(); const added = [];
+    for (const t of terms) if (!set.includes(t)) { set.push(t); added.push(t); }
+    if (added.length) lsSet(KEYS.glossaire, set);
+    return added;
+  },
 
   // Generic key store
   getKey(name, fallback = null) { return lsGet(KEYS[name] || name) ?? fallback; },
