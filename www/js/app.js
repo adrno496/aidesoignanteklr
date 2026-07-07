@@ -11,6 +11,7 @@ import { renderDashboard } from "./ui-dashboard.js";
 import { renderCours } from "./ui-cours.js";
 import { renderEntrainement } from "./ui-entrainement.js";
 import { renderDeas } from "./ui-deas.js";
+import { renderVae } from "./ui-vae.js";
 import { renderProfile } from "./ui-profile.js";
 import { renderOutils } from "./ui-outils.js";
 import { renderSettings } from "./ui-settings.js";
@@ -23,6 +24,7 @@ const PANELS = {
   entrainement: { id: "entrainement", label: "S'entraîner", icon: "🎯", render: renderEntrainement },
   deas:         { id: "deas",         label: "DEAS",        icon: "📋", render: renderDeas },
   profile:      { id: "profile",      label: "Profil",      icon: "👤", render: renderProfile },
+  vae:          { id: "vae",          label: "Ma VAE",      icon: "🎓", render: renderVae, hidden: true },
   outils:       { id: "outils",       label: "Outils",      icon: "🧰", render: renderOutils, hidden: true },
   planner:      { id: "planner",      label: "Planning",    icon: "🗓️", render: renderPlanner, hidden: true },
   ia:           { id: "ia",           label: "IA",          icon: "🤖", render: renderIa, hidden: true },

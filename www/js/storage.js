@@ -15,6 +15,7 @@ const KEYS = {
   progress: "aideso_progress",    // par UE : { ueId: {qcmSeen,qcmCorrect,fichesRead} }
   quests: "aideso_quests",
   tfe: "aideso_tfe",              // données du mémoire de l'étudiant·e
+  vae: "aideso_vae",              // dossier VAE (étapes, situations, positionnement)
   notes: "aideso_notes",          // notes personnelles : { refId: "texte" }
   planner: "aideso_planner",      // planning de révision
   wrong: "aideso_wrong",          // QCM ratés : { qcmId: nbErreurs }
@@ -312,6 +313,33 @@ export const Storage = {
   saveTfeStep(stepId, content) {
     const t = this.getTfe(); t.steps = t.steps || {}; t.steps[stepId] = content; lsSet(KEYS.tfe, t);
   },
+
+  // VAE (Validation des Acquis de l'Expérience)
+  getVae() { return lsGet(KEYS.vae) || { steps: {}, checks: {}, situations: [], positions: {}, compNotes: {}, juryDate: "" }; },
+  saveVae(data) { return lsSet(KEYS.vae, { ...this.getVae(), ...data }); },
+  saveVaeStep(stepId, content) {
+    const v = this.getVae(); v.steps = v.steps || {}; v.steps[stepId] = content; lsSet(KEYS.vae, v);
+  },
+  getVaeChecks() { return this.getVae().checks || {}; },
+  toggleVaeCheck(key, on) {
+    const v = this.getVae(); v.checks = v.checks || {};
+    if (on) v.checks[key] = true; else delete v.checks[key];
+    lsSet(KEYS.vae, v); return !!v.checks[key];
+  },
+  // Auto-positionnement par compétence : n° -> "maitrise" | "consolider" | "pas-encore".
+  getVaePositions() { return this.getVae().positions || {}; },
+  setVaePosition(comp, level) { const v = this.getVae(); v.positions = v.positions || {}; if (level) v.positions[comp] = level; else delete v.positions[comp]; lsSet(KEYS.vae, v); },
+  // Notes de preuve par compétence.
+  getVaeCompNote(comp) { return (this.getVae().compNotes || {})[comp] || ""; },
+  setVaeCompNote(comp, text) { const v = this.getVae(); v.compNotes = v.compNotes || {}; if (text) v.compNotes[comp] = text; else delete v.compNotes[comp]; lsSet(KEYS.vae, v); },
+  // Date de passage devant le jury (rétroplanning).
+  getVaeJuryDate() { return this.getVae().juryDate || ""; },
+  setVaeJuryDate(date) { const v = this.getVae(); v.juryDate = date || ""; lsSet(KEYS.vae, v); },
+  // Situations de travail décrites.
+  getVaeSituations() { return this.getVae().situations || []; },
+  addVaeSituation(sit) { const v = this.getVae(); v.situations = v.situations || []; v.situations.push({ id: uuid(), ...sit }); lsSet(KEYS.vae, v); return v.situations; },
+  updateVaeSituation(id, patch) { const v = this.getVae(); v.situations = (v.situations || []).map((s) => s.id === id ? { ...s, ...patch } : s); lsSet(KEYS.vae, v); return v.situations; },
+  removeVaeSituation(id) { const v = this.getVae(); v.situations = (v.situations || []).filter((s) => s.id !== id); lsSet(KEYS.vae, v); return v.situations; },
 
   // Journal de sessions (IndexedDB) — pour heatmap & stats
   async logSession(session) {

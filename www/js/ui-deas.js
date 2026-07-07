@@ -19,6 +19,17 @@ export function renderDeas(root) {
     ]),
   ]));
 
+  // Accès au module VAE
+  root.appendChild(el("button", { class: "card mb", style: { display: "block", width: "100%", textAlign: "left", cursor: "pointer", border: "1px solid var(--accent)" }, onclick: () => navigate("vae") }, [
+    el("div", { class: "flex-between" }, [
+      el("div", {}, [
+        el("div", { class: "card-title" }, ["🎓 Diplôme par la VAE"]),
+        el("div", { class: "small muted", style: { marginTop: "2px" } }, ["Tu prépares le DEAS par ton expérience ? Parcours guidé, grille des compétences, assistant de situation et prépa jury."]),
+      ]),
+      el("span", { class: "row-chev" }, ["›"]),
+    ]),
+  ]));
+
   // Méthodologie des épreuves (transversal)
   const meth = allFiches().filter((f) => /^meth_/.test(f.id));
   if (meth.length) {

@@ -68,4 +68,28 @@ export const Prompts = {
   explain: (sujet) => `Explique simplement et en quelques points, pour une élève aide-soignant·e, le sujet suivant, avec un moyen mnémotechnique si possible : "${sujet}". Reste dans le champ de l'aide-soignant·e.`,
   quizMe: (sujet) => `Pose-moi 3 questions de type QCM (avec la bonne réponse et une courte justification), niveau aide-soignant·e, sur : "${sujet}".`,
   case: (mod) => `Génère une courte situation professionnelle réaliste d'aide-soignant·e pour le module "${mod}", avec 3 questions et leur corrigé (conduite à tenir dans le champ AS).`,
+
+  // Aides IA pour la VAE aide-soignant·e. Tu accompagnes, tu ne rédiges pas le dossier à la place
+  // de la candidate et tu N'INVENTES JAMAIS son expérience : tu travailles sur ce qu'elle fournit.
+  vaeStep: (type, texte) => {
+    const rappel = "Important : n'invente aucune situation ni expérience. Aide à améliorer/structurer ce que la candidate a écrit, à partir de SON vécu. Reste dans le champ de l'aide-soignant·e (arrêté du 10 juin 2021). Rappelle si besoin de vérifier sur france-vae.gouv.fr.";
+    const consignes = {
+      comprendre: "Explique-moi simplement, pour une candidate à la VAE aide-soignant·e, comment se déroule la VAE (recevabilité, dossier de validation, jury, validation par blocs) et par quoi commencer.",
+      positionnement: "À partir de ce que j'écris, aide-moi à m'auto-positionner sur les 11 compétences du DEAS : lesquelles semblent déjà solides, lesquelles sont à travailler ?",
+      situations: "À partir de mon expérience ci-dessous, aide-moi à repérer 4 à 6 situations de travail riches à décrire, et quelles compétences chacune pourrait prouver. Ne fabrique pas de situations.",
+      decrire: "Voici une situation de travail que j'ai décrite. Aide-moi à l'améliorer : est-elle assez concrète (mes gestes, mon raisonnement) ? au 'je' ? l'anonymat est-il respecté ? Que préciser ?",
+      relier: "Voici mes situations. Aide-moi à repérer quelles compétences (parmi les 11 du DEAS) elles prouvent, et lesquelles ne sont pas encore couvertes.",
+      dossier: "Voici un extrait de mon dossier de validation VAE. Donne-moi un retour : clarté, complétude, anonymat, ce qui manque pour convaincre le jury.",
+      oral: "À partir de mon dossier ci-dessous, pose-moi des questions probables de jury VAE aide-soignant·e et donne des conseils pour y répondre. N'invente pas mon expérience.",
+    };
+    return `${consignes[type] || consignes.decrire}\n\n${rappel}\n\n--- Mon texte ---\n"${texte || "(vide — aide-moi à démarrer à partir de mon expérience.)"}"`;
+  },
+
+  // Vérifie qu'une situation démontre bien une compétence précise.
+  vaeCompetence: (compTitre, situationTexte) => `Je prépare ma VAE aide-soignant·e. Voici une compétence du DEAS et une situation de travail que j'ai vécue. Dis-moi si la situation démontre clairement cette compétence, ce qui manque pour le prouver, et comment la renforcer — sans inventer d'éléments.\n\nCompétence : ${compTitre}\n\nMa situation :\n"${situationTexte}"`,
+
+  // Simulateur de jury VAE : une question à la fois.
+  vaeJury: (contexte, historique) => `Tu joues un membre bienveillant mais exigeant d'un jury de VAE aide-soignant·e. Pose-moi UNE seule question à la fois sur mon dossier / mon expérience, attends ma réponse, réagis brièvement puis enchaîne. Reste dans le champ de l'aide-soignant·e.
+${contexte ? `\nContexte de mon dossier : ${contexte}` : ""}
+${historique ? `\nÉchange jusqu'ici :\n${historique}\n\nPose la question suivante (ou réagis à ma dernière réponse puis enchaîne).` : "\nCommence par te présenter en une phrase et pose ta première question."}`,
 };
