@@ -173,13 +173,13 @@ img { max-width: 100%; }
   padding: 6px 6px calc(6px + var(--safe-bottom));
 }
 .nav-btn {
-  flex: 1 1 0; max-width: 120px;
+  flex: 1 1 0; max-width: 120px; min-width: 0;
   display: flex; flex-direction: column; align-items: center; gap: 3px;
-  background: none; border: 0; padding: 6px 2px 4px; border-radius: var(--radius-sm);
+  background: none; border: 0; padding: 6px 1px 4px; border-radius: var(--radius-sm);
   color: var(--text-tertiary); transition: color 0.18s var(--ease), background 0.18s var(--ease);
 }
-.nav-btn .nav-icon { font-size: 1.32rem; line-height: 1; }
-.nav-btn .nav-label { font-size: 0.66rem; font-weight: 600; letter-spacing: 0.01em; }
+.nav-btn .nav-icon { font-size: 1.28rem; line-height: 1; }
+.nav-btn .nav-label { font-size: 0.62rem; font-weight: 600; letter-spacing: 0; white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
 .nav-btn.active { color: var(--accent); }
 .nav-btn.active .nav-icon { transform: translateY(-1px); }
 .nav-btn:active { background: var(--bg-sunken); }
