@@ -1,5 +1,5 @@
 /* AideSo — Service Worker : app shell offline-first + cache runtime du contenu. */
-const VERSION = "aideso-v4";
+const VERSION = "aideso-v5";
 const CORE_CACHE = `${VERSION}-core`;
 const RUNTIME_CACHE = `${VERSION}-runtime`;
 

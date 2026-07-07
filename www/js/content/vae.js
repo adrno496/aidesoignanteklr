@@ -115,15 +115,51 @@ export const COMP_ATTENDUS = {
   11: "Organiser ton activité, coopérer en équipe pluriprofessionnelle et participer à la démarche qualité et à la gestion des risques.",
 };
 
-// Assistant de description de situation : champs guidés (méthode contexte → actions → résultat).
+// Assistant de description de situation : champs guidés (méthode France VAE :
+// contexte → activités avant/pendant/après → fréquence & autonomie → analyse → preuves).
 export const SITUATION_CHAMPS = [
   { key: "titre", label: "Titre de la situation", placeholder: "Ex. : Accompagnement de la toilette d'une résidente qui refuse" },
   { key: "contexte", label: "Contexte", placeholder: "Où ? Quel service ? Quel public ? Quand ?" },
   { key: "personne", label: "La personne accompagnée (anonymisée)", placeholder: "Ex. : Mme B., 84 ans, désorientée, autonomie réduite" },
   { key: "mission", label: "Ma mission", placeholder: "Ce qui m'était demandé, mon rôle" },
-  { key: "actions", label: "Ce que j'ai fait concrètement", placeholder: "Mes actions, étape par étape, avec mes gestes" },
+  { key: "actions", label: "Ce que j'ai fait concrètement (avant / pendant / après)", placeholder: "Mes actions étape par étape, mes gestes, et pourquoi je les fais ainsi" },
+  { key: "frequence", label: "Fréquence & autonomie", placeholder: "À quelle fréquence ? En autonomie, seule ou accompagnée ? Sur prescription / rôle propre ?" },
   { key: "difficultes", label: "Difficultés / imprévus", placeholder: "Ce qui a compliqué la situation et comment j'ai réagi" },
   { key: "resultat", label: "Résultat", placeholder: "Ce que ça a apporté, ce que j'en retiens" },
+  { key: "preuves", label: "Preuves disponibles", placeholder: "Ce qui peut appuyer : protocole du service, transmissions, attestation, planning… (à anonymiser)" },
+];
+
+// Prérequis à ne pas oublier (à vérifier sur france-vae.gouv.fr).
+export const VAE_PREREQUIS = [
+  "Au moins 1 an d'expérience (cumulée, salariée, bénévole ou aidant familial) en lien avec le soin, l'accompagnement ou l'aide à la vie quotidienne.",
+  "AFGSU niveau 2 en cours de validité : OBLIGATOIRE le jour du jury. Anticipe la formation (21 h) si tu ne l'as pas encore.",
+];
+
+// Financement & droits du salarié (dispositif France VAE actuel).
+export const VAE_FINANCEMENT = [
+  { t: "CPF (Compte Personnel de Formation)", d: "Depuis 2025 (décret n°2025-663), le CPF peut financer TOUT le parcours : accompagnement, formations complémentaires et jury. Regarde tes droits sur moncompteformation.gouv.fr." },
+  { t: "Congé VAE (48 h)", d: "En tant que salarié·e, tu as droit à un congé VAE de 48 h avec maintien de salaire. Demande à ton employeur au moins 30 jours avant." },
+  { t: "Employeur / OPCO Santé", d: "Ton employeur peut financer via le plan de développement des compétences ; dans le médico-social, OPCO Santé peut abonder l'accompagnement." },
+  { t: "Accompagnateur (AAP)", d: "Un « architecte accompagnateur de parcours » te guide à chaque étape (recevabilité, dossier, jury). Trouve-le sur la plateforme France VAE ; son accompagnement est finançable." },
+];
+
+// VAE inversée : dispositif pour se former sur le poste en structure de soins.
+export const VAE_INVERSEE = "La VAE inversée place un·e salarié·e en emploi dans une structure de soins (EHPAD, hôpital…) avec un parcours structuré, un tutorat et des objectifs de compétences, jusqu'au diplôme. La prise en charge peut aller jusqu'à 9 000 €/an via OPCO Santé. ⚠️ C'est un dispositif expérimental (décret n°2023-408) : le quota d'entrée a été atteint et un bilan est en cours pour décider d'une généralisation. Vérifie sa disponibilité auprès de ton employeur et d'OPCO Santé.";
+
+// Conseils pour concilier travail en EHPAD et VAE.
+export const VAE_EHPAD_TIPS = [
+  "Ton travail quotidien EST ta matière première : chaque toilette, repérage d'aggravation, transmission ou bionettoyage peut nourrir ton dossier.",
+  "Garde un petit carnet à ton poste : dès qu'une situation illustre une compétence, note-la à chaud (sans aucune donnée nominative).",
+  "Négocie avec ton employeur : congé VAE (48 h), aménagement d'horaires, ou renseigne-toi sur la VAE inversée.",
+  "Bloque un créneau fixe (2 à 4 h/semaine) autour de tes plannings de poste. Compte 4 à 6 mois pour le dossier.",
+  "Appuie-toi sur ton IDE ou ton cadre pour valider ta compréhension des situations — mais le dossier reste TON vécu, écrit à la première personne.",
+];
+
+// Ce qui se passe après le passage devant le jury.
+export const VAE_APRES_JURY = [
+  { t: "Validation totale", d: "Le diplôme d'État d'aide-soignant·e t'est délivré. Félicitations !" },
+  { t: "Validation partielle", d: "Tu obtiens certains blocs ; tu as 5 ans pour valider les blocs manquants, soit en suivant les modules de formation correspondants, soit par une expérience prolongée ou diversifiée avant une nouvelle demande." },
+  { t: "Aucune validation", d: "Tu peux redéposer un nouveau dossier (livret 2) dans un délai de 3 ans, en t'appuyant sur les retours du jury." },
 ];
 
 export const VAE_GLOSSAIRE = [
@@ -134,11 +170,17 @@ export const VAE_GLOSSAIRE = [
   { terme: "Bloc de compétences", def: "Ensemble cohérent de compétences ; le DEAS en compte 5. La VAE peut valider bloc par bloc." },
   { terme: "Validation partielle", def: "Le jury valide une partie des blocs ; les autres se complètent ensuite (formation, nouvelle expérience)." },
   { terme: "Accompagnement VAE", def: "Aide (souvent financée) pour construire ton dossier et préparer le jury." },
-  { terme: "Jury VAE", def: "Instance qui évalue ton dossier et t'interroge à l'oral pour décider de la validation." },
+  { terme: "Jury VAE", def: "Instance (au moins 2 personnes) qui évalue ton dossier et t'interroge à l'oral pour décider de la validation." },
+  { terme: "Livret 1", def: "Ancien nom du dossier de recevabilité (arrêté du 28 mars 2022 pour le DEAS)." },
+  { terme: "Livret 2", def: "Ancien nom du dossier de validation où tu décris tes situations et compétences." },
+  { terme: "AAP (architecte accompagnateur de parcours)", def: "Le professionnel qui t'accompagne de la recevabilité au jury, via la plateforme France VAE." },
+  { terme: "VAE inversée", def: "Parcours où l'on est salarié·e en structure de soins et formé·e sur le poste jusqu'au diplôme (dispositif expérimental)." },
+  { terme: "AFGSU 2", def: "Attestation de Formation aux Gestes et Soins d'Urgence niveau 2 : obligatoire pour le DEAS, exigée au jury." },
 ];
 
 export const VAE_DOSSIER_CHECKLIST = [
   "Recevabilité obtenue",
+  "AFGSU niveau 2 valide (obligatoire le jour du jury)",
   "4 à 6 situations de travail décrites",
   "Les 11 compétences sont couvertes au moins une fois",
   "Chaque compétence est reliée à une situation concrète",
@@ -165,7 +207,10 @@ export const VAE_JURY_QUESTIONS = [
 
 export const VAE_RESSOURCES = [
   { nom: "France VAE — portail officiel", url: "https://vae.gouv.fr/" },
+  { nom: "France VAE — DEAS (fiche certification)", url: "https://vae.gouv.fr/certifications/91d7991a-eb28-43ca-a07d-0a4d9c142565/" },
+  { nom: "France VAE — financer son accompagnement", url: "https://vae.gouv.fr/savoir-plus/articles/financer-son-accompagnement-vae/" },
+  { nom: "France VAE — rédiger son dossier de validation", url: "https://vae.gouv.fr/savoir-plus/articles/rediger-dossier-validation/" },
   { nom: "Service-Public — la VAE", url: "https://www.service-public.fr/particuliers/vosdroits/F2401" },
   { nom: "Mon Compte Formation (CPF)", url: "https://www.moncompteformation.gouv.fr/" },
-  { nom: "Référentiel DEAS (arrêté du 10 juin 2021) — Légifrance", url: "https://www.legifrance.gouv.fr/" },
+  { nom: "Arrêté du 28 mars 2022 (VAE du DEAS) — Légifrance", url: "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000045462629" },
 ];

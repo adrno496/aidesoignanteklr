@@ -2,7 +2,7 @@
 // Parcours, grille des 11 compétences (auto-positionnement), assistant de situation, jury, export PDF.
 import { el, toast, openModal, closeModal } from "./app.js";
 import { Storage } from "./storage.js";
-import { VAE_STEPS, VAE_STEP_META, COMP_ATTENDUS, SITUATION_CHAMPS, VAE_GLOSSAIRE, VAE_DOSSIER_CHECKLIST, VAE_JURY_QUESTIONS, VAE_RESSOURCES } from "./content/vae.js";
+import { VAE_STEPS, VAE_STEP_META, COMP_ATTENDUS, SITUATION_CHAMPS, VAE_GLOSSAIRE, VAE_DOSSIER_CHECKLIST, VAE_JURY_QUESTIONS, VAE_RESSOURCES, VAE_PREREQUIS, VAE_FINANCEMENT, VAE_INVERSEE, VAE_EHPAD_TIPS, VAE_APRES_JURY } from "./content/vae.js";
 import { COMPETENCES, BLOCS } from "./content/referentiel.js";
 import { XP, checkAchievements } from "./gamification.js";
 import { isAiEnabled, ask, Prompts } from "./ai-client.js";
@@ -34,6 +34,22 @@ function showOverview(root) {
     el("div", { class: "flex-between mb" }, [el("strong", {}, ["Avancement du dossier"]), el("span", { class: "badge badge-accent" }, [`${done}/${VAE_STEPS.length}`])]),
     el("div", { class: "progress" }, [el("span", { style: { width: pct + "%" } })]),
     el("div", { class: "small muted", style: { marginTop: "6px" } }, [pct === 100 ? "Toutes les étapes sont remplies ! 🎉" : "Avance à ton rythme, étape par étape."]),
+  ]));
+
+  // Prérequis à ne pas oublier
+  root.appendChild(el("div", { class: "callout warn mb" }, [
+    el("div", { class: "callout-t" }, ["⚠️ Prérequis à anticiper"]),
+    el("ul", { style: { margin: "6px 0 0", paddingLeft: "18px" } }, VAE_PREREQUIS.map((p) => el("li", { style: { marginBottom: "4px" } }, [p]))),
+  ]));
+
+  // Infos pratiques (recherche France VAE)
+  root.appendChild(el("div", { class: "section-title" }, ["💡 Infos pratiques"]));
+  root.appendChild(el("div", { class: "flex", style: { gap: "10px", marginBottom: "10px" } }, [
+    el("button", { class: "btn btn-secondary", style: { flex: "1" }, onclick: () => showFinancementModal() }, ["💶 Financement & droits"]),
+    el("button", { class: "btn btn-secondary", style: { flex: "1" }, onclick: () => showEhpadModal() }, ["🏥 VAE + travail EHPAD"]),
+  ]));
+  root.appendChild(el("div", { class: "flex", style: { gap: "10px" } }, [
+    el("button", { class: "btn btn-secondary", style: { flex: "1" }, onclick: () => showApresJuryModal() }, ["🏁 Après le jury"]),
   ]));
 
   // Rétroplanning
@@ -298,8 +314,10 @@ function situationText(s) {
   if (s.personne) parts.push("Personne accompagnée : " + s.personne);
   if (s.mission) parts.push("Ma mission : " + s.mission);
   if (s.actions) parts.push("Ce que j'ai fait : " + s.actions);
+  if (s.frequence) parts.push("Fréquence & autonomie : " + s.frequence);
   if (s.difficultes) parts.push("Difficultés : " + s.difficultes);
   if (s.resultat) parts.push("Résultat : " + s.resultat);
+  if (s.preuves) parts.push("Preuves disponibles : " + s.preuves);
   return parts.join("\n");
 }
 
@@ -421,6 +439,38 @@ function showPreuvesModal() {
   wrap.appendChild(el("button", { class: "btn btn-ghost btn-block mt", onclick: () => closeModal() }, ["Fermer"]));
   render();
   openModal(wrap);
+}
+
+// ---------- Infos pratiques (financement, EHPAD, après-jury) ----------
+function infoModal(titre, intro, blocs, extra) {
+  const wrap = el("div", {});
+  wrap.appendChild(el("h3", {}, [titre]));
+  if (intro) wrap.appendChild(el("p", { class: "small muted" }, [intro]));
+  (blocs || []).forEach((b) => wrap.appendChild(el("div", { class: "card", style: { marginBottom: "8px" } }, [
+    el("strong", { class: "small" }, [b.t]), el("div", { class: "small muted", style: { marginTop: "2px" } }, [b.d]),
+  ])));
+  if (extra) wrap.appendChild(extra);
+  wrap.appendChild(el("p", { class: "disclaimer" }, ["Informations indicatives — vérifie sur france-vae.gouv.fr et avec ton accompagnateur."]));
+  wrap.appendChild(el("button", { class: "btn btn-block mt", onclick: () => closeModal() }, ["Fermer"]));
+  openModal(wrap);
+}
+
+function showFinancementModal() {
+  infoModal("💶 Financement & droits", "Tu travailles ? Plusieurs dispositifs peuvent financer ta VAE.", VAE_FINANCEMENT);
+}
+
+function showApresJuryModal() {
+  infoModal("🏁 Après le jury", "Trois décisions possibles du jury :", VAE_APRES_JURY);
+}
+
+function showEhpadModal() {
+  const tips = el("div", {}, [
+    el("div", { class: "section-title", style: { marginLeft: "0" } }, ["Concilier ton poste et ta VAE"]),
+    el("ul", { class: "fiche" }, VAE_EHPAD_TIPS.map((t) => el("li", {}, [t]))),
+    el("div", { class: "section-title", style: { marginLeft: "0" } }, ["La VAE inversée"]),
+    el("div", { class: "callout" }, [el("div", { class: "small" }, [VAE_INVERSEE])]),
+  ]);
+  infoModal("🏥 VAE + travail en EHPAD", "Ton expérience de terrain est ton meilleur atout.", null, tips);
 }
 
 // ---------- Glossaire ----------
