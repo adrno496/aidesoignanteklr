@@ -6,6 +6,12 @@ import { allFlashcards, qcmForMod, pickQcm } from "./content/index.js";
 import { modById } from "./content/referentiel.js";
 import { daysUntil } from "./ui-planner.js";
 
+function vaeSub() {
+  const steps = Storage.getVae().steps || {};
+  const done = Object.values(steps).filter((t) => t && String(t).trim().length > 20).length;
+  return done ? `${done}/7 étapes · reprendre` : "Diplôme par l'expérience";
+}
+
 function greeting() {
   const h = new Date().getHours();
   return h < 6 ? "Bonne nuit" : h < 12 ? "Bonjour" : h < 18 ? "Bon après-midi" : "Bonsoir";
@@ -91,6 +97,7 @@ export function renderDashboard(root) {
     quick("🧰", "Boîte à outils", "Constantes, gestes, hygiène…", () => navigate("outils")),
     quick("🗓️", "Planning", "Échéances & priorités", () => navigate("planner")),
     quick("📋", "DEAS / Examen", "Blocs, stages, certification", () => navigate("deas")),
+    quick("🎓", "Ma VAE", vaeSub(), () => navigate("vae")),
   ]));
 
   const quests = getWeeklyQuests();

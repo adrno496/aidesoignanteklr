@@ -340,6 +340,21 @@ export const Storage = {
   addVaeSituation(sit) { const v = this.getVae(); v.situations = v.situations || []; v.situations.push({ id: uuid(), ...sit }); lsSet(KEYS.vae, v); return v.situations; },
   updateVaeSituation(id, patch) { const v = this.getVae(); v.situations = (v.situations || []).map((s) => s.id === id ? { ...s, ...patch } : s); lsSet(KEYS.vae, v); return v.situations; },
   removeVaeSituation(id) { const v = this.getVae(); v.situations = (v.situations || []).filter((s) => s.id !== id); lsSet(KEYS.vae, v); return v.situations; },
+  moveVaeSituation(id, dir) {
+    const v = this.getVae(); const arr = v.situations || []; const i = arr.findIndex((s) => s.id === id);
+    const j = i + dir; if (i < 0 || j < 0 || j >= arr.length) return arr;
+    [arr[i], arr[j]] = [arr[j], arr[i]]; lsSet(KEYS.vae, v); return arr;
+  },
+  duplicateVaeSituation(id) {
+    const v = this.getVae(); const arr = v.situations || []; const s = arr.find((x) => x.id === id);
+    if (s) { arr.push({ ...s, id: uuid(), titre: (s.titre || "Situation") + " (copie)" }); lsSet(KEYS.vae, v); }
+    return arr;
+  },
+  // Preuves / pièces justificatives : { id, nom, type }.
+  getVaePreuves() { return this.getVae().preuves || []; },
+  addVaePreuve(p) { const v = this.getVae(); v.preuves = v.preuves || []; v.preuves.push({ id: uuid(), ...p }); lsSet(KEYS.vae, v); return v.preuves; },
+  toggleVaePreuve(id) { const v = this.getVae(); v.preuves = (v.preuves || []).map((p) => p.id === id ? { ...p, ok: !p.ok } : p); lsSet(KEYS.vae, v); return v.preuves; },
+  removeVaePreuve(id) { const v = this.getVae(); v.preuves = (v.preuves || []).filter((p) => p.id !== id); lsSet(KEYS.vae, v); return v.preuves; },
 
   // Journal de sessions (IndexedDB) — pour heatmap & stats
   async logSession(session) {

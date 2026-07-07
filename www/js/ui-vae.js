@@ -39,6 +39,9 @@ function showOverview(root) {
   // Rétroplanning
   root.appendChild(retroplanningCard(root));
 
+  // Couverture des 11 compétences
+  root.appendChild(coverageCard());
+
   // Trousse à outils
   root.appendChild(el("div", { class: "section-title" }, ["🧰 Mes outils VAE"]));
   const cov = coveredCompetences();
@@ -46,9 +49,19 @@ function showOverview(root) {
     el("button", { class: "btn btn-secondary", style: { flex: "1" }, onclick: () => showCompetencesModal() }, [`🎯 Compétences (${cov.size}/11)`]),
     el("button", { class: "btn btn-secondary", style: { flex: "1" }, onclick: () => showSituationsModal() }, [`🗂️ Situations (${Storage.getVaeSituations().length})`]),
   ]));
-  root.appendChild(el("div", { class: "flex", style: { gap: "10px" } }, [
+  root.appendChild(el("div", { class: "flex", style: { gap: "10px", marginBottom: "10px" } }, [
+    el("button", { class: "btn btn-secondary", style: { flex: "1" }, onclick: () => showPreuvesModal() }, [`📎 Preuves (${Storage.getVaePreuves().length})`]),
     el("button", { class: "btn btn-secondary", style: { flex: "1" }, onclick: () => showGlossaireModal() }, ["📖 Glossaire VAE"]),
+  ]));
+  root.appendChild(el("div", { class: "flex", style: { gap: "10px" } }, [
     el("button", { class: "btn btn-secondary", style: { flex: "1" }, onclick: () => showJuryModal() }, ["🎭 Simuler le jury"]),
+  ]));
+
+  // Exemple de dossier (fictif) à télécharger
+  root.appendChild(el("div", { class: "card mb", style: { marginTop: "10px" } }, [
+    el("div", { class: "card-title" }, ["📄 Exemple de dossier VAE (fictif)"]),
+    el("p", { class: "small muted" }, ["Un dossier de validation entièrement inventé, pour voir la structure, le ton et la façon de relier situations et compétences. À ne jamais déposer tel quel."]),
+    el("a", { class: "btn btn-secondary btn-block", href: "docs/vae-exemple-fictif.pdf", download: "vae-exemple-fictif.pdf" }, ["⬇️ Télécharger l'exemple (PDF)"]),
   ]));
 
   // Stepper
@@ -133,8 +146,14 @@ function showStep(root, s) {
   const wasDone = isDone(s.id);
   const ta = el("textarea", { placeholder: s.placeholder || "Écris ici…", style: { minHeight: "150px" } });
   ta.value = stored;
+  const cible = VAE_STEP_META[s.id]?.motsCible || 0;
   const counter = el("div", { class: "small muted", style: { marginTop: "4px" } });
-  const updateCounter = () => { const n = countWords(ta.value); counter.textContent = `${n} mot${n > 1 ? "s" : ""} · sauvegarde auto`; };
+  const updateCounter = () => {
+    const n = countWords(ta.value);
+    counter.textContent = cible
+      ? `${n} mot${n > 1 ? "s" : ""} · objectif indicatif ~${cible}${n >= cible ? " ✓" : ""} · sauvegarde auto`
+      : `${n} mot${n > 1 ? "s" : ""} · sauvegarde auto`;
+  };
   let saveTimer = null;
   ta.addEventListener("input", () => {
     updateCounter();
@@ -214,6 +233,26 @@ function coveredCompetences() {
   return set;
 }
 
+// Situations prouvant une compétence donnée.
+function situationsForComp(n) {
+  return Storage.getVaeSituations().filter((s) => (s.comps || []).map(Number).includes(Number(n)));
+}
+
+// Carte de couverture des 11 compétences (résumé + manquantes).
+function coverageCard() {
+  const covered = coveredCompetences();
+  const missing = COMPETENCES.map((c) => c.n).filter((n) => !covered.has(n));
+  const pct = Math.round((covered.size / 11) * 100);
+  return el("div", { class: "card mb" }, [
+    el("div", { class: "flex-between mb" }, [el("strong", {}, ["🎯 Couverture des compétences"]), el("span", { class: `badge ${covered.size === 11 ? "badge-good" : "badge-accent"}` }, [`${covered.size}/11`])]),
+    el("div", { class: "progress" }, [el("span", { style: { width: pct + "%" } })]),
+    missing.length
+      ? el("div", { class: "callout warn", style: { marginTop: "10px" } }, [el("div", { class: "callout-t" }, ["À couvrir"]), el("div", { class: "small" }, ["Compétences sans situation : " + missing.map((n) => "C" + n).join(", ") + ". Décris une situation qui les prouve."])])
+      : el("div", { class: "small", style: { color: "var(--good)", marginTop: "8px" } }, ["✅ Les 11 compétences sont couvertes par au moins une situation."]),
+    el("button", { class: "btn btn-secondary btn-block mt", onclick: () => showCompetencesModal() }, ["Ouvrir la grille des compétences"]),
+  ]);
+}
+
 function showCompetencesModal() {
   const covered = coveredCompetences();
   const wrap = el("div", {});
@@ -231,6 +270,9 @@ function showCompetencesModal() {
       ]));
       card.appendChild(el("div", { class: "small", style: { margin: "4px 0" } }, [c.titre]));
       card.appendChild(el("div", { class: "callout", style: { margin: "6px 0" } }, [el("div", { class: "callout-t" }, ["Ce que le jury attend"]), el("div", { class: "small" }, [COMP_ATTENDUS[c.n] || ""])]));
+      // Situations qui prouvent cette compétence
+      const proofs = situationsForComp(c.n);
+      if (proofs.length) card.appendChild(el("div", { class: "small muted", style: { margin: "0 0 6px" } }, ["Prouvée par : " + proofs.map((s) => s.titre || "(situation)").join(" · ")]));
       // Positionnement 3 états
       const seg = el("div", { class: "flex", style: { gap: "6px", marginBottom: "6px" } });
       ["maitrise", "consolider", "pas-encore"].forEach((lvl) => {
@@ -268,14 +310,17 @@ function showSituationsModal() {
     list.innerHTML = "";
     const sits = Storage.getVaeSituations();
     if (!sits.length) { list.appendChild(el("p", { class: "small muted" }, ["Aucune situation pour l'instant. Ajoute ta première ci-dessous."])); return; }
-    sits.forEach((s) => {
+    sits.forEach((s, i) => {
       const comps = (s.comps || []).map(Number).sort((a, b) => a - b);
       list.appendChild(el("div", { class: "card", style: { marginBottom: "8px" } }, [
-        el("div", { class: "flex-between" }, [el("strong", { class: "small" }, [s.titre || "(sans titre)"]), el("span", { class: "badge badge-accent" }, [`${comps.length} comp.`])]),
+        el("div", { class: "flex-between" }, [el("strong", { class: "small" }, [`${i + 1}. ${s.titre || "(sans titre)"}`]), el("span", { class: "badge badge-accent" }, [`${comps.length} comp.`])]),
         comps.length ? el("div", { class: "small muted", style: { margin: "4px 0" } }, ["Compétences : " + comps.join(", ")]) : null,
-        el("div", { class: "flex", style: { gap: "8px", marginTop: "6px" } }, [
+        el("div", { class: "flex", style: { gap: "6px", marginTop: "6px", flexWrap: "wrap" } }, [
+          el("button", { class: "btn btn-ghost btn-sm", title: "Monter", disabled: i === 0 ? "" : null, onclick: () => { Storage.moveVaeSituation(s.id, -1); render(); } }, ["↑"]),
+          el("button", { class: "btn btn-ghost btn-sm", title: "Descendre", disabled: i === sits.length - 1 ? "" : null, onclick: () => { Storage.moveVaeSituation(s.id, 1); render(); } }, ["↓"]),
           el("button", { class: "btn btn-ghost btn-sm", onclick: () => showSituationForm(s, render) }, ["✏️ Modifier"]),
-          el("button", { class: "btn btn-ghost btn-sm", onclick: () => { Storage.removeVaeSituation(s.id); render(); } }, ["🗑️ Supprimer"]),
+          el("button", { class: "btn btn-ghost btn-sm", onclick: () => { Storage.duplicateVaeSituation(s.id); render(); } }, ["⧉ Dupliquer"]),
+          el("button", { class: "btn btn-ghost btn-sm", onclick: () => { Storage.removeVaeSituation(s.id); render(); } }, ["🗑️"]),
         ]),
       ].filter(Boolean)));
     });
@@ -339,6 +384,42 @@ function showSituationForm(existing, onDone) {
       closeModal(); showSituationsModal(); onDone && onDone();
     } }, ["Enregistrer"]),
   ]));
+  openModal(wrap);
+}
+
+// ---------- Preuves / pièces justificatives ----------
+const PREUVES_SUGGEREES = [
+  "Contrat(s) de travail", "Fiches de poste", "Attestations d'employeur",
+  "Bulletins de salaire", "Attestations de formation (ex. AFGSU)", "Planning / relevé d'heures",
+];
+function showPreuvesModal() {
+  const wrap = el("div", {});
+  const listBox = el("div", {});
+  const render = () => {
+    listBox.innerHTML = "";
+    const refs = Storage.getVaePreuves();
+    if (!refs.length) { listBox.appendChild(el("p", { class: "small muted" }, ["Aucune pièce listée. Ajoute celles que tu devras fournir à France VAE."])); return; }
+    refs.forEach((p) => {
+      const cb = el("input", { type: "checkbox" });
+      if (p.ok) cb.checked = true;
+      cb.addEventListener("change", () => Storage.toggleVaePreuve(p.id));
+      listBox.appendChild(el("div", { class: "flex-between", style: { padding: "6px 0", borderBottom: "1px solid var(--border)" } }, [
+        el("label", { class: "check-row", style: { flex: "1", borderTop: "none", padding: "0" } }, [cb, el("span", {}, [p.nom])]),
+        el("button", { class: "btn btn-ghost btn-sm", onclick: () => { Storage.removeVaePreuve(p.id); render(); } }, ["🗑️"]),
+      ]));
+    });
+  };
+  const input = el("input", { type: "text", placeholder: "Nom de la pièce à fournir" });
+  const add = (nom) => { const n = (nom || input.value).trim(); if (!n) return; Storage.addVaePreuve({ nom: n, ok: false }); input.value = ""; render(); };
+  wrap.appendChild(el("h3", {}, ["📎 Mes preuves / pièces justificatives"]));
+  wrap.appendChild(el("p", { class: "small muted" }, ["Coche au fur et à mesure que tu rassembles tes pièces. Vérifie la liste exacte demandée sur france-vae.gouv.fr."]));
+  wrap.appendChild(listBox);
+  wrap.appendChild(el("div", { class: "section-title" }, ["Ajouter"]));
+  wrap.appendChild(el("div", { class: "chips mb" }, PREUVES_SUGGEREES.map((s) => el("button", { class: "chip", onclick: () => add(s) }, ["+ " + s]))));
+  wrap.appendChild(input);
+  wrap.appendChild(el("button", { class: "btn btn-block mt", onclick: () => add() }, ["+ Ajouter cette pièce"]));
+  wrap.appendChild(el("button", { class: "btn btn-ghost btn-block mt", onclick: () => closeModal() }, ["Fermer"]));
+  render();
   openModal(wrap);
 }
 

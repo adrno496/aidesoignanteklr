@@ -91,13 +91,13 @@ export const VAE_STEPS = [
 
 // Rétroplanning (semaines avant le passage devant le jury) + aide IA ciblée par étape.
 export const VAE_STEP_META = {
-  comprendre:     { semAvantJury: 24, aide: { label: "M'expliquer la VAE DEAS", type: "comprendre" } },
-  positionnement: { semAvantJury: 22, aide: { label: "M'aider à m'auto-positionner", type: "positionnement" } },
-  situations:     { semAvantJury: 20, aide: { label: "M'aider à choisir mes situations", type: "situations" } },
-  decrire:        { semAvantJury: 14, aide: { label: "Relire / améliorer ma situation", type: "decrire" } },
-  relier:         { semAvantJury: 8,  aide: { label: "Vérifier mes compétences couvertes", type: "relier" } },
-  dossier:        { semAvantJury: 4,  aide: { label: "Relire mon dossier", type: "dossier" } },
-  oral:           { semAvantJury: 1,  aide: { label: "Me préparer au jury", type: "oral" } },
+  comprendre:     { semAvantJury: 24, motsCible: 120, aide: { label: "M'expliquer la VAE DEAS", type: "comprendre" } },
+  positionnement: { semAvantJury: 22, motsCible: 200, aide: { label: "M'aider à m'auto-positionner", type: "positionnement" } },
+  situations:     { semAvantJury: 20, motsCible: 200, aide: { label: "M'aider à choisir mes situations", type: "situations" } },
+  decrire:        { semAvantJury: 14, motsCible: 800, aide: { label: "Relire / améliorer ma situation", type: "decrire" } },
+  relier:         { semAvantJury: 8,  motsCible: 250, aide: { label: "Vérifier mes compétences couvertes", type: "relier" } },
+  dossier:        { semAvantJury: 4,  motsCible: 400, aide: { label: "Relire mon dossier", type: "dossier" } },
+  oral:           { semAvantJury: 1,  motsCible: 250, aide: { label: "Me préparer au jury", type: "oral" } },
 };
 
 // Attendus du jury pour chacune des 11 compétences (aligné sur le référentiel du 10 juin 2021).

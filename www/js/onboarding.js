@@ -15,7 +15,7 @@ export function showOnboarding(opts = {}) {
       el("div", { style: { fontSize: "3rem" } }, ["💗"]),
       el("h3", {}, ["Bienvenue sur AideSo"]),
       el("p", { class: "muted small" }, [
-        "Ton compagnon de révision pour le DEAS : fiches par module, QCM, flashcards, situations professionnelles, gestes et préparation à la certification.",
+        "Ton compagnon pour le DEAS : fiches par module, QCM, flashcards, situations professionnelles, gestes, préparation à la certification — et un module dédié si tu prépares le diplôme par la VAE.",
       ]),
     ]),
     el("div", { class: "field" }, [
